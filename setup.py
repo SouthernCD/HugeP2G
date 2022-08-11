@@ -14,19 +14,20 @@ setuptools.setup(
     long_description=LONG_DESCRIPTION,
     long_description_content_type='text/markdown',
     url="https://github.com/SouthernCD/HugeP2G",
+    include_package_data = True,
 
     entry_points={
         "console_scripts": ["HugeP2G = hugep2g.cli:main"]
     },    
 
-    package_data={
-        "hugep2g": ['dep/*'],
-    },
+    # package_data={
+    #     "hugep2g": ['dep/*'],
+    # },
 
     packages=setuptools.find_packages(),
 
     install_requires=[
-        "toolbiox>=0.0.10",
+        "toolbiox>=0.0.11",
         "bcbio-gff>=0.6.6",
         "biopython>=1.76",
         "interlap>=0.2.6",
