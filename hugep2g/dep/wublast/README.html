@@ -1,0 +1,2712 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META name="keywords" content="BLAST, Basic Local Alignment Search Tool, BLASTA, AB-BLAST, AB BLAST, ABBLAST, WU-BLAST, WU BLAST, WUBLAST, blastp, blastn, blastx, tblastn, tblastx">
+   <TITLE>AB-BLAST</TITLE>
+   <LINK media="screen" href="styles/blast_styles.css" type="text/css" rel="stylesheet">
+<STYLE TYPE="text/css">
+<!--
+.indented
+	{
+	padding-left:50pt;
+	padding-right:50pt;
+	}
+-->
+</STYLE>
+</HEAD>
+<BODY>
+
+<H1><IMG src="AB-BLAST.gif" alt="AB-BLAST"></H1>
+<BR>
+&nbsp;&nbsp;&nbsp;<I>Basic Local Alignment Search Tool</I>
+<BR>
+&nbsp;&nbsp;&nbsp;from
+<A HREF="http://www.advbiocomp.com">
+Advanced Biocomputing, LLC</A>
+<BR>
+
+<H2>Index</H2>
+
+<UL>
+<LI><A HREF="#Description">Description</A></LI>
+<LI><A HREF="#Features">Key Features</A></LI>
+<LI><A HREF="#Licensing">Licensing of AB-<EM>BLAST</EM></A></LI>
+<LI><A HREF="#Manifest">Manifest</A></LI>
+<LI><A HREF="#Parameters">Command Line Options and Parameters</A></LI>
+<LI><A HREF="#CompParms">Comparable AB/NCBI&nbsp;BLAST Parameters</A></LI>
+<LI><A HREF="#EnvVars">Environment Variables</A></LI>
+<LI><A HREF="#Filters">Filters and Masks</A></LI>
+<LI>Precomputed Statistical Parameters
+	<UL>
+	<LI><A HREF="#Precomputed-nt">nucleotide scoring systems</A></LI>
+	<LI><A HREF="#Precomputed-aa">protein scoring systems</A></LI>
+	</UL>
+</LI>
+<LI><A HREF="#Bugs">Bugs</A></LI>
+<LI><A HREF="http://blast.advbiocomp.com/doc/memory.html" TARGET="_blank">Memory Requirements</A></LI>
+<LI><A HREF="#Platforms">Supported Platforms</A></LI>
+<LI><A HREF="#Installation"><B>Installation</B></A></LI>
+<LI><A HREF="#Differences">Differences between AB-<EM>BLAST</EM> and WU-BLAST</A></LI>
+<LI><A HREF="#Citing">Citing BLAST</A></LI>
+<LI><A HREF="#History">Historical Notes</A></LI>
+<LI><A HREF="#References">References</A></LI>
+</UL>
+
+<HR>
+<A NAME="Description"></A>
+<H3>Description</H3>
+
+<P>
+<B>AB-<EM>BLAST</EM></B>&nbsp;3.0 is a powerful
+software package for gene and protein identification,
+using sensitive, selective and rapid similarity searches of
+protein and nucleotide sequence databases.
+
+The feature list for AB-<EM>BLAST</EM> is long and continues to expand,
+while performance is improved.
+Much of this is outlined
+<A HREF="#Features">below</A>.
+A complete suite of BLAST search programs
+(<TT><B>blastp</B></TT>, <TT><B>blastn</B></TT>, <TT><B>blastx</B></TT>, <TT><B>tblastn</B></TT> and <TT><B>tblastx</B></TT>)
+is provided in the package,
+along with several database management and support programs that
+include <TT><B>nrdb</B></TT>, <TT><B>patdb</B></TT>, <TT><B>xdformat</B></TT>, <TT><B>xdget</B></TT>,
+<TT><B>seg</B></TT>, <TT><B>dust</B></TT> and <TT><B>xnu</B></TT>.
+</P>
+
+<P>
+<B>
+AB-<EM>BLAST</EM> has been built to be the most trusted database search tool
+in your software toolbox,
+doing what you tell it, reporting precisely what it&rsquo;s doing
+&mdash; even telling you what it could <I>not</I> do because
+of specific parameter restrictions you might wish to change &mdash;
+and able to handle even your biggest jobs with aplomb.
+</B>
+AB-<EM>BLAST</EM> uses the most rigorous, sensitive implementation of the BLAST algorithm available,
+yet it often runs faster than the rest.
+Users of other BLAST implementations have typically suffered through a series
+of expensive and time-consuming rewrites, beta releases, format changes,
+and a bewildering new set of program parameters, options, and behaviors every few years.
+Meanwhile AB-<EM>BLAST</EM> was built from scratch to offer consistently superior performance
+and flexibility &mdash; flexibility that has ensured near-absolute backward compatibility
+with every AB-<EM>BLAST</EM> release for <I>over 15 years</I>.
+The unique and useful combination of features, sensitivity, speed and reliability
+of AB-<EM>BLAST</EM>
+has been achieved through the use of advanced algorithms,
+painstaking software coding,
+extensive performance benchmarking
+and error checking,
+and a superior design that anticipates future needs,
+all guided by decades of domain knowledge and a unified vision.
+This helps AB-<EM>BLAST</EM> users maintain pace with the latest technology
+with every new release.
+</P>
+
+<P>
+By now it should be clear that
+AB-<EM>BLAST</EM> is neither a re-hashed nor &ldquo;Mac-ified&rdquo;
+version of NCBI&nbsp;BLAST &mdash;
+although AB-<EM>BLAST</EM> is in many ways easier to use.
+AB-<EM>BLAST</EM> shares essentially no code with NCBI&nbsp;BLAST,
+except for some portions that both packages
+copied from the public domain ungapped BLAST&nbsp;1.4 (W. Gish, 1994, unpublished).
+More information about the lineage and history
+of AB-<EM>BLAST</EM> development
+is available <A HREF="#History">here</A>.
+</P>
+
+
+<HR>
+<A NAME="Features"></A>
+<H3>Key Features</H3>
+
+<P>
+Some of the key features of AB-<EM>BLAST</EM> are described below.
+</P>
+
+<UL>
+<LI>
+<B>AB-<EM>BLAST</EM> is the premier gapped BLAST with statistics.</B>
+AB-<EM>BLAST</EM> is derived from the original gapped BLAST with statistics
+(W. Gish, 1996, unpublished).
+Gapped alignment routines are available and used by default
+in all AB-<EM>BLAST</EM> search modes
+(<TT>BLASTP</TT>, <TT>BLASTN</TT>, <TT>TBLASTN</TT>, <TT>BLASTX</TT> and <TT>TBLASTX</TT>),
+with purely ungapped alignments available as an option.
+</LI>
+
+<LI>
+<B>Faster and More Sensitive.</B>
+AB-<EM>BLAST</EM> is up to twice as fast as NCBI BLAST in all search modes, while being more sensitive.
+With the same parameter settings,
+the classical 1-hit BLAST algorithm used by default in AB-<EM>BLAST</EM>
+is faster <I>and</I> more sensitive than the 1-hit algorithm used optionally by NCBI BLAST.
+Even when compared at the same sensitivity level,
+the AB-<EM>BLAST</EM> 1-hit algorithm is nearly as fast
+and uses much less memory than the 2-hit algorithm described by
+<A HREF="#Altschul_et_al_1997">Altschul <I>et al.</I> (1997)</A>.
+For users who desire maximum speed,
+an AB-specific implementation of the 2-hit algorithm
+is available in all search modes (including <TT>BLASTN</TT>) that is faster,
+more sensitive and more memory-efficient than the NCBI 2-hit implementation.
+(See the
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#hitdist" TARGET="_blank"><TT>hitdist</TT></A>
+option.)
+</LI>
+
+<LI>
+<B>Multiple Local Alignments with Joint Evaluation.</B>
+Virtually all database search programs will find sequence similarities
+(locally optimal alignments or approximations thereof)
+that are by themselves statistically <I>in</I>significant and thus are not reported,
+but AB-<EM>BLAST</EM> can identify alignments
+&mdash; none of which may be statistically significant on their own &mdash;
+that are statistically significant <I>as a group</I> and therefore <I>do</I> get reported.
+Alignments are clustered into &ldquo;consistent&rdquo; sets
+under a variety of user-configurable constraints,
+including maximum allowable separation distance and maximum allowable overlap.
+This combination of sensitivity and selectivity
+&mdash; used by default in all AB-<EM>BLAST</EM> search modes
+and not available anywhere else &mdash;
+increases the biological relevance of the results.
+This feature is essential for finding:
+<UL>
+<LI>
+all exons in a multi-exon gene sequence, not just high-scoring exons;
+</LI>
+<LI>
+all complete or partial copies of a repetitive element
+in a genomic sequence, not just high-scoring ones;
+and
+</LI>
+<LI>
+multiple, discrete domains of similarity between sequences,
+not just the highest-scoring domain.
+</LI>
+</UL>
+</LI>
+
+<LI>
+<B>More Sensitive/Selective than Smith-Waterman.</B>
+The combination of well-chosen heuristics and statistics in AB-<EM>BLAST</EM>
+can be more sensitive and selective than
+the full dynamic programming approach of the classical
+<A HREF="#Smith_Waterman_1981">Smith-Waterman (1981)</A> algorithm,
+which reports only the single highest scoring alignment between two sequences,
+as well as other approaches or BLAST implementations that may
+identify multiple regions of local similarity but then only evaluate the alignments
+in isolation for their statistical significance.
+</LI>
+
+<LI>
+<B>Full Smith-Waterman Option</B>.
+With the
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#postsw" TARGET="_blank"><TT>postsw</TT></A>
+option,
+a full Smith-Waterman alignment is performed between pairs of query-subject
+sequences that are already scheduled to be reported by <TT>BLASTP</TT>.
+The Smith-Waterman alignments are combined with
+the heuristic BLAST results, any redundancy between them is removed, and the statistics are recomputed.
+In addition to providing alignments guaranteed to be optimal,
+this post-processing can significantly improve the P-values and relative ranking of database hits,
+often while increasing the execution time only marginally.
+</LI>
+
+<LI>
+<B>Choice of Statistical Methods.</B>
+AB-<EM>BLAST</EM> uses
+&ldquo;Sum&rdquo; statistics
+(<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/8390686" TARGET="_blank">Karlin and Altschul, 1993</A>)
+by default in all search modes,
+with Poisson statistics available as an option
+(<A HREF="http://blast.advbiocomp.com/doc/parameters.html#poissonp" TARGET="_blank"><TT>poissonp</TT></A>).
+Sum statistics and Poisson statistics involve
+joint probability calculations on sets of one or more alignments.
+To evaluate the significance of individual alignments (or alignment scores),
+simple
+<A HREF="#Karlin_and_Altschul_1990">Karlin-Altschul (1990)</A>
+statistics
+are also available with the
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#kap" TARGET="_blank"><TT>kap</TT></A>
+option.
+</LI>
+
+<LI>
+<B><TT>BLASTN</TT> Flexibility.</B>
+Unique to AB-<EM>BLAST</EM> are these features of the <TT>BLASTN</TT> search mode:
+
+<UL>
+
+<LI>
+<I>Nucleotide scoring matrices.</I>
+AB-<TT>BLASTN</TT> supports fully-specified scoring matrices,
+not just simple match/mismatch scoring systems.
+This allows transitions to be scored differently than transversions;
+and positive G-A substitution scores for the design of siRNAs (small interfering RNAs)
+where G-U base pairing is allowed.
+Scoring matrices can also be tailored to improve the design of PCR primers
+or applied to areas of research where a simple match/mismatch scoring system
+can not adequately discriminate.
+Contrary to
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/11331233" TARGET="_blank">W.&nbsp;Miller&nbsp;(2001)</A>,
+scoring matrices were first supported by the NCBI ungapped <TT>BLASTN</TT> version 1.4
+(Gish, W., 1994, unpublished;
+see <A HREF="http://blast.advbiocomp.com/blast-1.4/">http://blast.advbiocomp.com/blast-1.4</A>).
+Support for nucleotide scoring matrices was indeed dropped
+by the NCBI when its <TT>blastall</TT> program was released in 1997,
+but this feature was maintained continuously in all WU versions of <TT>BLASTN</TT>
+since the migration to Washington University in St. Louis in 1994,
+continuously through the introduction of the original gapped BLAST (WU-BLAST) in 1996,
+and on through to today with AB-<EM>BLASTN</EM>.
+</LI>
+
+<LI>
+<I>Flexible Word Lengths.</I>
+AB-<TT>BLASTN</TT> supports BLAST word lengths as short as <TT>1</TT>
+(re: the
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#w"><TT>W</TT></A>
+parameter).
+</LI>
+<LI>
+<I>Nucleotide Neighborhood Words.</I>
+Nucleotide neighborhood words are supported by AB-<TT>BLASTN</TT>
+using the standard neighborhood word score threshold parameter,
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#t"><TT>T</TT></A>.
+Using neighborhood words, nucleotide sequence similarity can be detected
+even in the absence of any identical residues between two sequences.
+Users are cautioned, however, that careless use of the
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#t"><TT>T</TT></A>
+parameter can result in <I>crushing</I> amounts
+of memory being requested by <TT>BLASTN</TT>.
+For this reason,
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#t"><TT>T</TT></A>
+should likely be used only in conjunction with very short word lengths.
+</LI>
+</UL>
+
+</LI>
+
+<LI>
+<B>Consistently Accurate Statistics with <TT>BLASTN</TT>.</B>
+Since the release of the first gapped BLAST with statistics in 1996
+(W. Gish, unpublished),
+the statistical significance of gapped alignment scores
+in all search modes &mdash; including <TT>BLASTN</TT> &mdash;
+has been evaluated using appropriately pre-computed &ldquo;gapped&rdquo; values
+for the statistical parameters <I>&lambda;</I>, <I>K</I> and <I>H</I>,
+rather than the often very different values for these parameters that are computed
+at run-time for evaluating ungapped alignment scores.
+If precomputed values are not available for the specific
+combination of scoring system and gap penalties requested by the user,
+a prominent warning has always been issued.
+In contrast, NCBI-<TT>BLASTN</TT> only relatively recently began
+using precomputed gapped values for <I>&lambda;</I>, <I>K</I> and <I>H</I>
+and warning users when appropriate values are unavailable.
+</LI>
+
+
+<LI>
+<B>Virtual Gene Structures.</B>
+Linkage information describing &ldquo;consistent&rdquo; groups or chains of local alignments (HSPs)
+are provided by AB-<EM>BLAST</EM>
+when the
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#topcombon"><TT>topcomboN</TT></A>
+or
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#links"><TT>links</TT></A>
+options are used.
+This facility can help with construction of overall gene structures
+from what might otherwise be a barrage of local alignments
+scattered throughout a 2-dimensional search space.
+The
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#hspsepqmax"><TT>hspsepQmax</TT></A>,
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#hspsepsmax"><TT>hspsepSmax</TT></A>,
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#olfraction"><TT>olfraction</TT></A>,
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#olmax"><TT>olmax</TT></A>,
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#golfraction"><TT>golfraction</TT></A>
+and
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#golmax"><TT>golmax</TT></A>
+parameters can also help ensure the reported structures are more biologically relevant.
+</LI>
+
+<LI>
+<B>Ease of Database Management.</B>
+AB-<EM>BLAST</EM> supports the eXtended Database Format (<B>XDF</B>),
+a power user&rsquo;s dream
+for working with peptide and nucleotide sequences.
+Both the NCBI&nbsp;BLAST&nbsp;2.0 database format and the NCBI implementation
+of the BLAST search algorithm were originally restricted to sequences under 16 Mbp
+in length,
+whereas human genome contigs exceeded 25 Mbp in the last millennium
+(<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/10830953" TARGET="_blank">Hattori&nbsp;<I>et&nbsp;al.</I>,&nbsp;2000</A>)
+and extended to hundreds of megabytes many years ago.
+In contrast, <B>XDF</B> databases, which were introduced in 1999,
+have the facility to accurately store individual sequences
+of up to 1 Gbp (1 billion bp) in length with ambiguity codes intact.
+Other BLAST software, such as the NCBI&rsquo;s,
+limits database files to 2 gigabytes each,
+whereas from its inception <B>XDF</B> database files
+could be of virtually unlimited size &mdash;
+provided of course that the host operating system and file system
+support such &ldquo;large files&rdquo; (as most modern operating systems and file systems do).
+</LI>
+
+</UL>
+
+<P>
+To support <B>XDF</B> databases,
+the database formatting tool named <B>xdformat</B>
+is provided with AB-<EM>BLAST</EM>.
+Among other distinct capabilities
+and advantages to using XDF and <B>xdformat</B> are:
+</P>
+<UL>
+<LI>
+fast appends of new sequences to existing databases
+(both protein and nucleotide).
+There is no need to reformat
+an XDF database just to add one or more sequences to it.
+</LI>
+<LI>
+<B>xdformat</B> runs 2-4 times faster than the NCBI <TT>formatdb</TT> program,
+while offering a superset of features and greater reliability;
+</LI>
+<LI>
+the full complement of NCBI standard &ldquo;<TT>FASTA</TT>&rdquo; sequence identifiers is indexed
+by <TT>xdformat</TT>,
+including standard identifiers the NCBI <TT>formatdb</TT> program does not index;
+See this
+<A HREF="http://blast.advbiocomp.com/doc/FAQ-Indexing.html" TARGET="_blank">
+FAQ
+</A>
+for further details;
+</LI>
+<LI>
+duplicated sequence identifiers (that should be unique) in public databases
+distributed by the NCBI
+are reported by <TT>xdformat</TT> that the NCBI <TT>formatdb</TT> does not catch;
+</LI>
+<LI>
+safe roll-backs of database updates when file I/O
+(<I>e.g.</I>, disk-full errors) or parse errors are encountered;
+</LI>
+<LI>
+huge databases need not be broken into multiple volumes
+individually composed of several files but can be managed simply
+with as few as 3 files (4 files when sequence identifier index is included),
+regardless of the database size up to 1&nbsp;TB;
+</LI>
+<LI>
+flexible indexing of <I>all</I> sequence identifiers
+&mdash; not just a subset of the NCBI identifiers &mdash;
+including user-defined identifiers;
+</LI>
+<LI>
+index support for duplicate occurrences of the same identifier,
+even the identical &ldquo;gi&rdquo; identifiers that cause some indexing programs
+to abort;
+</LI>
+<LI>
+identifier indexing is supported not only when creating an XDF database
+but when appending new sequences to an existing XDF database;
+and if a database was originally created without an identifier index,
+an index can be added later in one, relatively fast step;
+</LI>
+<LI>
+identifier indexes can be quickly re-built
+if necessary using different indexing policies,
+without having to reformat the entire database;
+</LI>
+<LI>
+intelligent retrieval of indexed sequences
+uses a complementary program named <B>xdget</B>.
+<B>Xdget</B> can retrieve sequences by identifier
+even if the program is not told what name space
+(<I>e.g.</I>, gi, accession, locus, user-defined, etc.)
+the identifier came from.
+For more on identifier indexing, see
+<a href="http://blast.advbiocomp.com/doc/FAQ-Indexing.html" TARGET="_blank">this</A>;
+</LI>
+<LI>
+<B>xdformat</B> and <B>xdget</B> accept and work intelligently
+with identifiers that obey the International DDBJ/EBI/NCBI collaboration&rsquo;s
+<TT>Accession.Version</TT> identifier syntax (<I>e.g.</I>,
+the programs know that BAA84643.2 is a newer version of BAA84643,
+but will retrieve BAA84643.1 if specifically requested);
+And the parsing programs that come with AB-<EM>BLAST</EM>
+for converting GenBank and EMBL database flat files into &ldquo;<TT>FASTA</TT>&rdquo; format
+not only report <I>gi</I> identifiers but Accessions <B><I>with Versions</I></B>;
+</LI>
+<LI>
+greatly reduced memory requirements and BLAST search initiation times
+for databases containing large numbers of entries,
+which is particularly important when memory is in short supply
+or when multiple processors are standing by
+waiting for a single-threaded initialization phase to be completed;
+</LI>
+<LI>
+the ability to dump (or recover) the contents of an XDF database back into <TT>FASTA</TT> format
+with the original annotation and ambiguity codes intact;
+</LI>
+<LI>
+both the <B>X</B> and <B>N</B> ambiguity codes are supported in nucleotide sequences,
+thus permitting the use of distinct substitution
+scores for these letters and the use of PHRED/PHRAP sequence output
+&ldquo;as is&rdquo; for input
+to <B>xdformat</B>.
+</LI>
+
+<LI>
+Compared to the classical BLAST&nbsp;1.4 database format,
+XDF provides
+the ability to use <TT>FASTA</TT>/Pearson format
+input files with unjustified (<I>i.e.,</I> ragged or blank) input lines.
+With nucleotide sequence databases,
+there is also no longer the need to retain the original <TT>FASTA</TT> input file
+in order to access the ambiguity codes during a database search.
+</LI>
+
+<LI>
+Support for XDF by the BLAST search programs
+does not come at the expense of backward compatibility.
+AB-<EM>BLAST</EM> can search databases in either XDF or the classical BLAST&nbsp;1.4
+database formats.
+Furthermore, by simply installing new versions of <TT>setdb</TT> and <TT>pressdb</TT>,
+the migration to using XDF can be performed swiftly and transparently,
+without making any changes whatsoever to existing database maintenance scripts.
+While providing this drop-in upgrade path to XDF,
+support for legacy databases in the BLAST&nbsp;1.4 database format
+is retained transparently, as well:
+the AB-<EM>BLAST</EM> search programs automatically
+identify the database format being used
+and adjust their operations accordingly.
+This allows users to migrate incrementally to XDF,
+at their own pace and as they see fit,
+without losing the ability to study or reproduce results
+obtained with older databases.
+Even so, users are encouraged to make the migration to XDF,
+as there are definite benefits to the new format,
+including an improved nucleotide sequence data representation
+and the ability to index sequences by their identifiers.
+</LI>
+
+<LI>
+When searching very large databases,
+virtual memory requirements are dramatically reduced in AB-<EM>BLAST</EM>,
+eliminating program failures that occurred
+when system resource limits were unexpectedly reached.
+</LI>
+
+<LI>
+Virtual databases are supported by AB-<EM>BLAST</EM>.
+Virtual databases can be
+specified on the command line as a white space-delimited list of
+component database names.
+Virtual databases can be comprised of
+components in either XDF <I>or</I> classical BLAST&nbsp;1.4 format,
+as long as the formats are not mixed on the same command line.
+For example, this command might be used to search the pri, rod, mam,
+vrt, and htg divisions of GenBank:
+<PRE>
+
+  blastn "pri rod mam vrt htg" myquery.nt
+
+</PRE>
+</LI>
+
+<LI>
+Virtually no file size limits exist for databases and other files,
+provided the host operating system supports large files.
+Operating systems such as Linux (kernel version 2.2 and earlier)
+for 32-bit Intel computing platforms
+are often incapable of using files larger than 2 GB,
+although virtual database support (see above) helps avoid this limitation
+by allowing large databases to be segmented into files of a manageable size.
+Linux users in need of large file support should use at least a version 2.4.*
+kernel or ideally a 2.6.* kernel.
+</LI>
+
+<LI>
+AB-<EM>BLAST</EM> supports <I>segmented query sequences</I>,
+such as the contigs that result from shotgun sequencing assembly
+or perhaps multiple short probes for a given gene.
+For example,
+all of the contigs from a given clone can be concatenated together with a single hyphen (-) character
+to delimit each contig.
+Segment boundaries are therefore clearly distinguishable from purely ambiguous regions
+of the sequence, while consuming little storage.
+AB-<EM>BLAST</EM> honors segment boundaries by guaranteeing that no alignment,
+be it ungapped or gapped, will cross a boundary.
+Support for segmented database sequences is in progress.
+</LI>
+
+<LI>
+Multi-sequence query files are supported,
+such that every sequence in the <TT>FASTA</TT> file is searched against the specified database.
+Previous versions of
+the software only compared the first sequence in the query file against the database.
+Each search result is separated from the next by a single ASCII form feed
+character (control-L).  See the new <B>qrecmin</B> and <B>qrecmax</B> options.
+</LI>
+
+<LI>
+The format of all dates reported in BLAST output can be controlled by the
+UN*X standard <CODE>CFTIME</CODE> environment variable.
+For example, dates will be reported in
+<A HREF="http://en.wikipedia.org/wiki/ISO_8601" TARGET="_blank">ISO&nbsp;8601</A>
+standard format,
+if <CODE>CFTIME</CODE> is set to <CODE>'%Y-%m-%dT%H:%M:%S'</CODE>.
+Date strings produced by the
+<TT>xdformat</TT> program are also governed by <CODE>CFTIME</CODE>.
+Note that the format of many date and time strings reported for
+XDF databases is determined by the setting (if any)
+of <CODE>CFTIME</CODE> <I>when the database was created or last modified</I>.
+</LI>
+
+<LI>
+Both <I>sequence filtering</I> and <I>word masking</I> of query sequences
+are supported.
+The terms &ldquo;filter&rdquo; and &rdquo;mask&rdquo; are sometimes used alone
+and interchangeably,
+however there are two distinct techniques people can use
+which deserve separate names.
+Lower case alphabetic letters in the query sequence can be used to
+inform the BLAST search program as to which residues it should either <I>filter</I>
+(convert to X or N)
+or <I>mask</I>
+(skip when generating neighborhood words but otherwise leave the sequence intact).
+See the
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#lcfilter" TARGET="_blank">
+lcfilter
+</A> and
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#lcmask" TARGET="_blank">
+lcmask
+</A> options, respectively.
+</LI>
+
+<LI>
+Multiple <CODE>filter=&lt;filter&gt;</CODE> directives can be specified
+on the BLAST command line.
+Each of the filters is executed independently
+and their results are OR-ed at the end.
+</LI>
+
+<LI>
+NCBI&nbsp;BLAST&nbsp;2.0 uses either built-in (closed) complexity filters
+or the original external filtering technique
+of BLAST&nbsp;1.3
+(Gish, W., unpublished),
+which uses the UNIX <TT>popen()</TT> system call and temporary/intermediate files.
+AB-<EM>BLAST</EM> provides open access to its complexity filters by using
+filter programs that are distinct from the search programs,
+while simultaneously avoiding the use of problematic
+system call interfaces and temporary files.
+</LI>
+
+<LI>
+One or more <B>word masks</B> can be specified on the command line, using
+the <CODE>wordmask=&lt;<I>mask</I>&gt;</CODE> option,
+where &lt;<I>mask</I>&gt; may be a classical
+filter program such as <CODE>seg</CODE>, <CODE>xnu</CODE>, or <CODE>dust</CODE>.
+Whereas sequence filters
+convert certain letters in the query sequence into ambiguity codes (X
+for amino acid and N for nucleotide), word masks do not alter the
+sequence.  Word masks instead cause the indicated portion(s) of the query
+sequence to be skipped during BLAST neighborhood word generation.
+This leaves the query sequence intact for generating alignments that are
+seeded by word hits arising in flanking, unmasked regions of the
+sequence.
+</LI>
+
+<LI>
+The BLAST algorithm word length parameter,
+<I>W</I>, can be set from 1 to 1024 in <I>all</I> search modes
+(<TT>BLASTP</TT>, <TT>BLASTN</TT>, <TT>BLASTX</TT>, <TT>TBLASTN</TT> and <TT>TBLASTX</TT>).
+This wide-ranging flexibility and the resultant speed are due in part
+to the highly optimized DFA (deterministic finite-state automaton) used
+by AB-<EM>BLAST</EM>.
+</LI>
+
+<LI>
+AB-<EM>BLAST</EM> reliably supports parallel processing on a variety of SMP
+(symmetric multiprocessing) computing platforms.
+AB-<EM>BLAST</EM> was the first BLAST to
+support Mac&nbsp;OS&nbsp;X,
+the first to thread properly (<I>i.e.</I>, robustly and efficiently) under Mac&nbsp;OS&nbsp;X,
+and the first to support 64-bit computing
+under Mac&nbsp;OS&nbsp;X on PowerPC&nbsp;G5 and Intel&nbsp;X64 processors.
+POSIX threads are used under
+Linux and Mac&nbsp;OS&nbsp;X.
+Although POSIX threads are available under Solaris,
+Solaris native threads are used instead for slightly better performance.
+</LI>
+
+<LI>
+To illustrate just some of the flexibility available with AB-<EM>BLAST</EM>,
+the software bundle includes a
+<A HREF="http://www.cpan.org">PERL</A> script named <TT>ab-blastall</TT>
+(formerly <TT>wu-blastall</TT>) that translates an NCBI <TT>blastall</TT> command line
+into a <I>roughly</I> equivalent AB-<EM>BLAST</EM>
+command line and then invokes the appropriate AB-<EM>BLAST</EM> search mode.
+The output remains in AB-<EM>BLAST</EM> format,
+but the <TT>ab-blastall</TT> script may help
+users of the NCBI <TT>blastall</TT> program migrate
+to AB-<EM>BLAST</EM> and start to discover its power.
+<BR>
+NOTE:
+the <TT>ab-blastall</TT> script is <I>not at all</I> intended to provide
+a literal replacement for the NCBI <TT>blastall</TT> program
+and is <I>not</I> an appropriate method
+for assessing the relative performance
+(sensitivity, specificity, accuracy or speed)
+of the NCBI and AB software.
+</LI>
+
+<LI>
+By coercing AB-<EM>BLAST</EM>
+to substitute for CrossMatch
+(<A HREF="http://www.phrap.org/phredphrapconsed.html">Phil Green, unpublished</A>),
+the unique combination of flexibility
+and speed of AB-<EM>BLAST</EM> can yield
+up to a 30-fold increase in performance of
+<A HREF="http://www.repeatmasker.org">RepeatMasker</A> in its slow mode,
+while maintaining virtually identical sensitivity.
+</LI>
+
+<LI>
+Many command line options are available.
+The complete list of options and parameters along with their descriptions
+is provided in the <CODE>parameters.html</CODE> file that comes bundled
+with the software.
+The latest version of this file is maintained on-line at
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html" TARGET="_blank">
+http://blast.advbiocomp.com/doc/parameters.html</A>.
+</LI>
+
+<LI>
+For convenience,
+the AB-<EM>BLAST</EM> package includes an optimized version
+of the classic sequence redundancy removal program
+<TT>nrdb</TT>.
+A newer program named <TT>patdb</TT> is also included
+that can find identical sequences
+<I>and</I> perfect substrings of others in the input
+just about as fast as <TT>nrdb</TT> finds identical sequences alone.
+</LI>
+
+</UL>
+
+<P>
+A reverse chronological list of changes to the AB-<EM>BLAST</EM> software
+is available in the file named <CODE>HISTORY</CODE> that comes bundled
+with the software.
+When possible,
+any bugs that have been found have typically been fixed within 24 hours
+of their being reported.
+<BR>
+<BR>Please send
+<A HREF="http://www.advbiocomp.com/contact.html" TARGET="_blank">
+us</A>
+bug reports, questions, or suggestions.
+<BR>
+</P>
+
+<HR>
+
+<A NAME="Licensing"></A>
+<H3>Licensing</H3>
+<P>
+Full information about licensing of AB-<EM>BLAST</EM> is provided
+<A HREF="http://blast.advbiocomp.com/licensing/index.html" TARGET="_blank">here</A>.
+</P>
+<BR>
+
+
+<HR>
+<A NAME="Manifest"></A>
+<H3>Manifest</H3>
+
+<P>
+The AB-<EM>BLAST</EM>&nbsp;3.0 package
+includes the following data analysis and utility programs:
+</P>
+
+<UL>
+<LI>
+<TT><B>blasta</B></TT> &mdash; the unified database search program, which provides
+<TT><B>blastp</B></TT>, <TT><B>blastn</B></TT>, <TT><B>blastx</B></TT>, <TT><B>tblastn</B></TT>, and <TT><B>tblastx</B></TT>
+search functionality.
+</LI>
+
+<LI>
+<TT><B>xdformat</B></TT> &mdash; the recommended program for rapidly converting sequences from
+<TT>FASTA</TT> format into the native <TT>XDF</TT> format read by <TT>blasta</TT>.  The program
+can also append new sequences to an existing database;
+automatically rollback on errors;
+provides flexible indexing and verification services;
+and can dump data back into <TT>FASTA</TT> format.
+</LI>
+
+<LI>
+<TT><B>xdget</B></TT> &mdash; a flexible tool for retrieving sequences
+(or segments thereof)
+from an indexed <TT>XDF</TT> database;
+retrieved sequences are
+optionally reverse-complemented and translated
+in the case of nucleotide sequences.
+<TT>xdformat</TT> and <TT>xdget</TT> are actually one and the same program
+to help ensure their mutual compatibility during upgrades.
+</LI>
+
+<LI>
+<TT><B>nrdb</B></TT> &mdash; a tool for rapidly removing trivial redundancy
+(<I>i.e.</I>, duplicate sequences)
+from one or more input files in <TT>FASTA</TT> format.
+A simple hash table is used,
+combined with data compression techniques to allow larger nucleotide
+sequence data sets to be manipulated in memory.
+</LI>
+
+<LI>
+<TT><B>patdb</B></TT> &mdash; a tool much like <TT>nrdb</TT> for rapidly removing trivial redundancy
+from one or more input files in <TT>FASTA</TT> format,
+but with the <I>option</I>
+of identifying sequences that are perfect <I>substrings</I> of others.
+A Patricia tree is used by the program,
+possibly combined with one or more finite state automata.
+This tool with its substring removal option can be usefully applied to protein sequences,
+which often differ in their inclusion of the initiator methionine;
+or in mapping short read sequences onto a genome.
+For merely removing trivial redundancy,
+<TT>nrdb</TT> may be more practically applied
+to nucleotide sequences than <TT>patdb</TT>,
+because <TT>nrdb</TT> uses nucleotide data compression techniques
+that are not employed by <TT>patdb</TT>.
+</LI>
+
+<LI>
+<TT><B>ab-blastall</B></TT> &mdash; a PERL script for converting an NCBI <TT>blastall</TT> command line
+into a <I>roughly</I> equivalent <TT>blasta</TT> command line
+and then invoking <TT>blasta</TT>.
+The output is still in AB-<EM>BLAST</EM> format.
+This is primarily intended as a technology demonstration tool
+but may also assist users in their migration
+from NCBI BLAST to the more accurate AB-<EM>BLAST</EM>.
+For benchmarking of BLAST,
+careful tweaking of parameters may be required, but even with great care,
+benchmarking for speed can still be confounded by inaccuracies in NCBI BLAST.
+</LI>
+
+<LI>
+<TT><B>ab-formatdb</B></TT> &mdash; a PERL script
+for converting an NCBI <TT>formatdb</TT> command line
+into the equivalent <TT>xdformat</TT> command line and then invoking <TT>xdformat</TT>.
+This is primarily intended as a technology demonstration tool but may also
+assist users in their migration from NCBI BLAST to AB-<EM>BLAST</EM>.
+</LI>
+
+<LI>
+<TT><B>pam</B></TT> &mdash; a program to compute amino acid substitution scoring matrices
+having arbitrary scales, using the Dayhoff PAM model.
+</LI>
+
+<LI>
+<TT><B>pressdb.real</B></TT> &mdash; the legacy <TT>pressdb</TT> program for any rare users
+who may be reliant on the NCBI&nbsp;BLAST&nbsp;1.4 database format for nucleotide sequences.
+</LI>
+
+<LI>
+<TT><B>setdb.real</B></TT> &mdash; the legacy <TT>setdb</TT> program for any rare users
+who may be reliant on the NCBI&nbsp;BLAST&nbsp;1.4 database format
+for amino acid sequences.
+</LI>
+
+<LI>
+<TT><B>gb2fasta</B></TT> &mdash; a parser to extract nucleotide sequences from GenBank flat files
+into <TT>FASTA</TT> format.
+</LI>
+
+<LI>
+<TT><B>gt2fasta</B></TT> &mdash; a parser to extract amino acid sequences from CDS features
+in GenBank flat files and output them in <TT>FASTA</TT> format.
+</LI>
+
+<LI>
+<A NAME="sp2fasta">
+</A>
+<TT><B>sp2fasta</B></TT> &mdash; a parser to extract protein or nucleotide sequences from
+EMBL, TrEMBL, or Swiss-Prot database files and output them in <TT>FASTA</TT> format.
+</LI>
+
+<LI>
+<TT><B>pir2fasta</B></TT> &mdash; a parser to extract protein sequences from NBRF PIR database
+files and output them in <TT>FASTA</TT> format.
+</LI>
+
+<LI>
+<TT><B>seg</B></TT> &mdash; a low-complexity filter for protein and nucleotide sequences
+(<A HREF="#Wootton_and_Federhen_1993">Wootton and Federhen, 1993</A>;
+<A HREF="#Wootton_and_Federhen_1996">Wootton and Federhen, 1996</A>).
+The program identifies low compositional complexity regions.
+</LI>
+
+<LI>
+<TT><B>dust</B></TT> &mdash; a low-complexity filter for nucleotide sequences
+(<A HREF="#Hancock_and_Armstrong_1994">Hancock and Armstrong, 1994</A>;
+Tatusov and Lipman, unpublished).
+</LI>
+
+<LI>
+<TT><B>xnu</B></TT> &mdash; a low-complexity filter for protein sequences
+(<A HREF="#Claverie_and_States_1993">Claverie and States, 1993</A>).
+The program identifies short-periodicity repeats.
+</LI>
+
+
+<LI>
+<TT><B>sysblast.sample</B></TT> &mdash; a sample configuration file that system
+administrators may wish to modify and install as <TT>/etc/sysblast</TT>.
+Parameter settings in this file can be used to:
+limit the number of threads employed by each BLAST process;
+change the default number of threads employed per process;
+alter the &ldquo;nice&rdquo; value for BLAST processes;
+limit the amount of memory utilized by each BLAST process.
+</LI>
+
+</UL>
+
+
+<HR>
+<A NAME="Parameters"></A>
+<H3>AB-<EM>BLAST</EM> Command Line Options and Parameters</H3>
+
+<P>
+A complete list of command line options and parameters
+for modifying the behavior of the AB-<EM>BLAST</EM> search programs
+is available
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html" TARGET="_blank">here</A>.
+</P>
+
+<HR>
+<A NAME="CompParms"></A>
+<H3>Comparable AB/NCBI BLAST Parameters</H3>
+
+<P>
+A brief comparison of the some of the most important
+parameters for controlling sensitivity, selectivity and speed
+of AB-<EM>BLAST</EM> and NCBI BLAST
+is available
+<A HREF="http://blast.advbiocomp.com/doc/cparms.html" TARGET="_blank">here</A>.
+</P>
+
+
+<HR>
+<A NAME="EnvVars"></A>
+<H3>Environment Variables</H3>
+
+<P>
+AB-<EM>BLAST</EM> can utilize the settings
+of a few environment variables
+to adapt its behavior to different computing environments:
+<B><TT>BLASTDB</TT></B>, <B><TT>BLASTFILTER</TT></B> and <B><TT>BLASTMAT</TT></B>.
+To allow for <I>triple</I> AB/WU/NCBI BLAST installations,
+AB-<EM>BLAST</EM> also supports the environment variables
+<TT><B>AB</B>BLASTDB</TT>, <TT><B>AB</B>BLASTFILTER</TT> and <TT><B>AB</B>BLASTMAT</TT>,
+as well as
+<TT><B>WU</B>BLASTDB</TT>, <TT><B>WU</B>BLASTFILTER</TT> and <TT><B>WU</B>BLASTMAT</TT>.
+Settings of the <TT><B>AB</B></TT> versions of these variables take precedence over all others,
+and <TT><B>WU</B></TT> variable settings take precedence
+over the corresponding base name variables.
+</P>
+
+<P>
+In AB-<EM>BLAST</EM>, the <TT><B>BLASTDB</B></TT> (or <TT>ABBLASTDB</TT>) environment variable
+can be a list of one <I>or more</I> directory names in which the programs
+are to look for database files.
+In UNIX parlance, such an environment variable might be called a <I>path</I>
+for the database files.
+Directory names should be delimited from one another by a colon
+(&ldquo;:&rdquo;) and listed in the order that they should be searched.
+If the <TT>BLASTDB</TT> environment variable is not set, the programs use a default
+path of <CODE>.:/usr/ncbi/blast/db</CODE>, such that the programs first look in the
+current working directory (&ldquo;.&rdquo;) for the requested database
+and then look in the <CODE>/usr/ncbi/blast/db</CODE> directory.
+For backward compatibility with
+programs that expect <TT>BLASTDB</TT> to be a single directory specification and
+not a path, if the user has set a value for <TT>BLASTDB</TT> but omitted the current
+working directory,
+AB-<EM>BLAST</EM> will still look for database files
+in the current working directory as a last resort.
+This usage is unchanged from NCBI/WU BLAST version 1.4 (1994),
+except multiple directories could be specified with the <TT>BLASTDB</TT>
+variable beginning with WU-BLAST 2.0 ca. 1997.
+</P>
+
+<P>
+The <TT><B>BLASTFILTER</B></TT> (or <TT>ABBLASTFILTER</TT>) environment variable
+can be set to the directory containing the sequence filter programs,
+such as
+<A HREF="http://blast.advbiocomp.com/pub/seg/" TARGET="_blank">seg</A> and
+<A HREF="http://blast.advbiocomp.com/pub/xnu/" TARGET="_blank">xnu</A>.
+The default directory for the filter programs is <CODE>/usr/ncbi/blast/filter</CODE>.
+This usage is unchanged from NCBI/WU BLAST version&nbsp;1.4.
+</P>
+
+<P>
+The <TT><B>BLASTMAT</B></TT> (or <TT>ABBLASTMAT</TT>)
+environment variable can be set to the parent
+directory for all scoring matrix files.
+The default directory for these files is <CODE>/usr/ncbi/blast/matrix</CODE>,
+beneath which are expected <CODE>nt</CODE> and <CODE>aa</CODE> subdirectories
+for storing scoring matrix
+files for nucleotide and amino acid alphabets, respectively.
+This usage is unchanged from NCBI/WU BLAST version&nbsp;1.4.
+</P>
+
+<P>
+For more information about environment variables, see the
+<A HREF="#Installation">Installation</A> instructions.
+</P>
+
+<HR>
+
+<A NAME="Filters"></A>
+<H3>Filters and Masks</H3>
+<P>
+AB-<EM>BLAST</EM> provides a highly flexible means
+of applying both &ldquo;hard&rdquo; and &ldquo;soft&rdquo; masks to a query sequence,
+of supporting alternative, user-defined filter programs
+and non-standard parameters to the standard filters.
+The <CODE>filter</CODE> (for hard masking) and
+<CODE>wordmask</CODE> (for soft masking)
+command line options provide the basic interface.
+Multiple specifications of each type are acceptable
+on the BLAST command line.
+Furthermore, individual filter and wordmask specifications may
+consist of entire pipelines of commands.
+</P>
+
+<P>
+For example, three filters are used in succession by this pipeline:
+</P>
+
+<PRE>
+      filter="myfilter1 | myfilter2 | myfilter3 -x5 -"
+</PRE>
+
+<P>
+The first two filters in this case expect to read their input from UN*X
+standard input (also known as <I>stdin</I>),
+whereas <CODE>myfilter3</CODE> apparently needs to be told
+to read data from <I>stdin</I>,
+using the usual &ldquo;-&rdquo; or
+hyphen argument.
+The standard output (<I>stdout</I>)
+from <CODE>myfilter1</CODE> will be read via <I>stdin</I>
+by <CODE>myfilter2</CODE>,
+which in turn processes the query
+before handing its results to <CODE>myfilter3</CODE>;
+finally, <CODE>myfilter3</CODE>
+reports its results to <I>stdout</I>,
+which the BLAST program itself reads to obtain the fully masked sequence.
+The final output from the filter pipeline is expected by the BLAST
+program to be in <TT>FASTA</TT> format.
+</P>
+
+<P>
+Instead of running all 3 filters in the above example as part of one
+pipeline, they could instead be specified as three separate filter options
+like this:
+</P>
+
+<PRE>
+    filter=myfilter1  filter=myfilter2  filter="myfilter3 -x5 -"
+</PRE>
+
+<P>
+The same choice of running as a pipeline or running separately is available
+for wordmasks, too.
+Naturally, the two approaches can also be combined on the same command line.
+An advantage to using the pipeline approach is that all 3 filters
+in the example above may complete a little bit faster,
+because much of the I/O overhead is avoided.
+Furthermore,
+when used in the pipeline,
+there is no requirement that the output from <CODE>myfilter1</CODE>
+and <CODE>myfilter2</CODE> actually be in <TT>FASTA</TT> format.
+Those two programs could potentially pass any information between
+themselves and to <CODE>myfilter3</CODE>.
+The only absolute requirements are that the first filter in the pipeline,
+<CODE>myfilter1</CODE>, must read <TT>FASTA</TT> data
+from <I>stdin</I>, and the last filter in the pipeline, <CODE>myfilter3</CODE>,
+must output <TT>FASTA</TT> data (that is also of the same length
+as the query!) to <I>stdout</I>.
+</P>
+
+<P>
+It should be noted that with some filter programs,
+passing the query sequence sequentially through
+a pipeline of filters may yield
+a different result than processing the query independently with each filter
+and OR-ing the results.
+The script <B>seg+xnu</B> included in the <I>filter/</I> directory provides
+an example with which to test this.
+Specifying <CODE>filter=seg+xnu</CODE> on the BLAST command line
+invokes a seg and xnu pipeline that is built-in to the search programs;
+whereas specifying <CODE>filter="seg+xnu -"</CODE>
+causes the <B>seg+xnu</B> script to be invoked on the query, which independently
+executes <B>seg</B> and <B>xnu</B>,
+then logically &ldquo;ORs&rdquo; the results with the <B>pmerge</B>
+utility program.
+(The <B>echofilter</B> option can be used to see the results of filtering displayed
+in search program output).
+The built-in seg+xnu pipeline is historically the way these two filters have
+been invoked together,
+but the somewhat slower method employed
+by the <B>seg+xnu</B> script with <B>pmerge</B> may be more desirable.
+</P>
+
+<HR>
+
+<H3>Precomputed Statistical Parameters</H3>
+
+<A NAME="Precomputed-nt"></A>
+<H4><I>Nucleotide Scoring Systems</I></H4>
+
+<P>
+Precomputed values for <I>&lambda;</I>, <I>K</I> and <I>H</I>
+are available for <TT>BLASTN</TT> searches
+with the following match,mismatch
+(<A HREF="http://blast.advbiocomp.com/doc/parameters.html#m" TARGET="_blank">M</A>,<A HREF="http://blast.advbiocomp.com/doc/parameters.html#n" TARGET="_blank">N</A>)
+scoring systems,
+using the sets of gap penalties
+{<A HREF="http://blast.advbiocomp.com/doc/parameters.html#a" TARGET="_blank">Q</A>,<A HREF="http://blast.advbiocomp.com/doc/parameters.html#r" TARGET="_blank">R</A>}:
+</P>
+
+<BR>
+
+<TABLE border="1">
+<CAPTION>Precomputed Nucleotide Scoring Systems</CAPTION>
+<COLGROUP align="center">
+	<COL width="40">
+	<COL width="40">
+</COLGROUP>
+<TR><TH>M<TH>N<TH>{Q,R}
+<TR><TD ALIGN=center>+1<TD ALIGN=center>&minus;3<TD>&nbsp;{3,3}&nbsp;&nbsp;{3,2}&nbsp;&nbsp;{3,1}&nbsp;&nbsp;{7,2}&nbsp;
+<TR><TD ALIGN=center>+1<TD ALIGN=center>&minus;2<TD>&nbsp;{2,2}&nbsp;&nbsp;{2,1}&nbsp;&nbsp;{1,1}&nbsp;
+<TR><TD ALIGN=center>+3<TD ALIGN=center>&minus;5<TD>&nbsp;{10,5}&nbsp;&nbsp;{6,3}&nbsp;&nbsp;{5,5}&nbsp;
+<TR><TD ALIGN=center>+4<TD ALIGN=center>&minus;5<TD>&nbsp;{10,5}&nbsp;
+<TR><TD ALIGN=center>+1<TD ALIGN=center>&minus;1<TD>&nbsp;{3,1}&nbsp;&nbsp;{2,1}&nbsp;
+<TR><TD ALIGN=center>+5<TD ALIGN=center>&minus;4<TD>&nbsp;{20,10}&nbsp;&nbsp;{10,10}&nbsp;
+<TR><TD ALIGN=center>+5<TD ALIGN=center>&minus;11<TD>&nbsp;{22,22}&nbsp;&nbsp;{22,11}&nbsp;&nbsp;{12,2}&nbsp;&nbsp;{11,11}&nbsp;
+</TABLE>
+
+<BR>
+<BR>
+Precomputed values are also available for a Purine-Pyrimidine scoring matrix
+named &ldquo;pupy&rdquo;:
+<BR>
+<BR>
+<TABLE border="1">
+<CAPTION><TT>PuPy</TT> Matrix</CAPTION>
+<COLGROUP>
+	<COL width="40">
+	<COL width="40">
+</COLGROUP>
+<TR><TH>Q<TH>R
+<TR><TD ALIGN=center>20<TD ALIGN=center>10
+<TR><TD ALIGN=center>10<TD ALIGN=center>10
+</TABLE>
+
+
+<BR>
+<BR>
+<A NAME="Precomputed-aa"></A>
+<H4><I>Protein Scoring Systems</I></H4>
+
+<P>
+Precomputed values for <I>&lambda;</I>, <I>K</I> and <I>H</I>
+are available for protein-level searches
+(<TT>BLASTP</TT>, <TT>BLASTX</TT>, <TT>TBLASTN</TT> and <TT>TBLASTX</TT>)
+with the following scoring matrix and
+gap penalty combinations (or gap penalty ranges for R) {Q, R}:
+</P>
+
+<BR>
+<TABLE border="1">
+<CAPTION><TT>BLOSUM50</TT></CAPTION>
+<COLGROUP>
+	<COL width="40">
+</COLGROUP>
+<TR><TH>Q<TH>R
+<TR><TD ALIGN="center">16<TD>1&ndash;4
+<TR><TD ALIGN="center">15<TD>1&ndash;4, 6, 8
+<TR><TD ALIGN="center">14<TD>1&ndash;5, 8
+<TR><TD ALIGN="center">13<TD>1&ndash;5, 8
+<TR><TD ALIGN="center">12<TD>2&ndash;5, 7
+<TR><TD ALIGN="center">11<TD>2&ndash;4, 6, 8
+<TR><TD ALIGN="center">10<TD>2&ndash;6, 8
+<TR><TD ALIGN="center">9<TD>3&ndash;5, 7
+<TR><TD ALIGN="center">8<TD>4&ndash;8
+<TR><TD ALIGN="center">7<TD>6, 7
+</TABLE>
+
+
+<BR>
+<BR>
+<TABLE border="1">
+<CAPTION><TT>BLOSUM55</TT></CAPTION>
+<COLGROUP>
+	<COL width="40">
+</COLGROUP>
+<TR><TH>Q<TH>R
+<TR><TD ALIGN="center">16<TD>1&ndash;4
+<TR><TD ALIGN="center">15<TD>1&ndash;4, 6, 8
+<TR><TD ALIGN="center">14<TD>1&ndash;5, 7
+<TR><TD ALIGN="center">13<TD>2&ndash;5, 8
+<TR><TD ALIGN="center">12<TD>2&ndash;5, 8
+<TR><TD ALIGN="center">11<TD>2&ndash;6, 8
+<TR><TD ALIGN="center">10<TD>3&ndash;6, 9
+<TR><TD ALIGN="center">9<TD>3&ndash;5, 7
+<TR><TD ALIGN="center">8<TD>4&ndash;8
+<TR><TD ALIGN="center">7<TD>7
+</TABLE>
+
+<BR>
+<BR>
+<TABLE border="1">
+<CAPTION><TT>BLOSUM62</TT></CAPTION>
+<COLGROUP>
+	<COL width="40">
+</COLGROUP>
+<TR><TH>Q<TH>R
+<TR><TD ALIGN="center">12<TD>1&ndash;3
+<TR><TD ALIGN="center">11<TD>1&ndash;3
+<TR><TD ALIGN="center">10<TD>1&ndash;4
+<TR><TD ALIGN="center">9<TD>1&ndash;5
+<TR><TD ALIGN="center">8<TD>2&ndash;7
+<TR><TD ALIGN="center">7<TD>2&ndash;6
+<TR><TD ALIGN="center">6<TD>3&ndash;5
+<TR><TD ALIGN="center">5<TD>5
+</TABLE>
+
+<BR>
+<BR>
+<TABLE border="1">
+<CAPTION><TT>BLOSUM80</TT></CAPTION>
+<COLGROUP>
+	<COL width="40">
+</COLGROUP>
+<TR><TH>Q<TH>R
+<TR><TD ALIGN="center">12<TD>2&ndash;12
+<TR><TD ALIGN="center">11<TD>2&ndash;11
+<TR><TD ALIGN="center">10<TD>2&ndash;10
+<TR><TD ALIGN="center">9<TD>3&ndash;9
+<TR><TD ALIGN="center">8<TD>4&ndash;8
+<TR><TD ALIGN="center">7<TD>5&ndash;7
+</TABLE>
+
+<BR>
+<BR>
+<TABLE border="1">
+<CAPTION><TT>PAM40</TT></CAPTION>
+<COLGROUP>
+	<COL width="40">
+</COLGROUP>
+<TR><TH>Q<TH>R
+<TR><TD ALIGN="center">12<TD>1, 2, 6
+<TR><TD ALIGN="center">11<TD>1, 2, 7
+<TR><TD ALIGN="center">10<TD>1&ndash;3, 7
+<TR><TD ALIGN="center">9<TD>1&ndash;3, 6
+<TR><TD ALIGN="center">8<TD>1&ndash;4
+<TR><TD ALIGN="center">7<TD>1&ndash;4
+<TR><TD ALIGN="center">6<TD>2&ndash;5
+<TR><TD ALIGN="center">5<TD>2&ndash;5
+<TR><TD ALIGN="center">4<TD>3, 4
+</TABLE>
+
+<BR>
+<BR>
+<TABLE border="1">
+<CAPTION><TT>PAM120</TT></CAPTION>
+<COLGROUP>
+	<COL width="40">
+</COLGROUP>
+<TR><TH>Q<TH>R
+<TR><TD ALIGN="center">12<TD>1, 2, 4
+<TR><TD ALIGN="center">11<TD>1&ndash;3
+<TR><TD ALIGN="center">10<TD>1&ndash;3, 5
+<TR><TD ALIGN="center">9<TD>1&ndash;3, 5
+<TR><TD ALIGN="center">8<TD>1&ndash;4, 6
+<TR><TD ALIGN="center">7<TD>2&ndash;4, 6
+<TR><TD ALIGN="center">6<TD>2&ndash;5
+<TR><TD ALIGN="center">5<TD>3&ndash;5
+</TABLE>
+
+<BR>
+<BR>
+<TABLE border="1">
+<CAPTION><TT>PAM250</TT></CAPTION>
+<COLGROUP>
+	<COL width="40">
+</COLGROUP>
+<TR><TH>Q<TH>R
+<TR><TD ALIGN="center">16<TD>1&ndash;4
+<TR><TD ALIGN="center">15<TD>1&ndash;5
+<TR><TD ALIGN="center">14<TD>1&ndash;6
+<TR><TD ALIGN="center">13<TD>1&ndash;6
+<TR><TD ALIGN="center">12<TD>2&ndash;7
+<TR><TD ALIGN="center">11<TD>2&ndash;7
+<TR><TD ALIGN="center">10<TD>3&ndash;8
+<TR><TD ALIGN="center">9<TD>3&ndash;7
+<TR><TD ALIGN="center">8<TD>5&ndash;7
+<TR><TD ALIGN="center">7<TD>7
+</TABLE>
+
+<HR>
+
+<A NAME="Bugs"></A>
+<H3>Bugs</H3>
+
+<P>
+AB-<EM>BLAST</EM> is certainly not bug free, but historically
+bugs have been fixed typically within 24 hours of their being reported.
+The currently known bugs are:
+</P>
+
+<!--
+<PRE>
+       No outstanding issues exist with the current version.
+</PRE>
+-->
+
+<UL>
+<LI>
+The scale of the included <B>BLOSUM80</B> scoring matrix is 1/3 bit, rather than
+the 1/2 bit scale used otherwise for BLOSUM60 and above (BLOSUM60, 62, 70, 90, and&nbsp;100).
+This anomaly&mdash;which goes all the way back to NCBI BLAST&nbsp;1.3 in 1993&mdash;may
+be corrected (along with revised gapped lambda, K and H parameters) in a future release.
+</LI>
+</UL>
+
+<P>
+If you think you might be experiencing the effects of a bug,
+please contact
+<A HREF="http://www.advbiocomp.com/contact.html">
+us</A>.
+</P>
+
+<P>
+AB-<EM>BLAST</EM> exhibits a few other behaviors worth mentioning here,
+because they could trip up or confuse even the most knowledgeable of BLAST users.
+Any unexpected behavior might rightfully be construed as being a bug,
+so the following information is provided here in the <B>Bugs</B> section to help avoid the unexpected.
+If you should encounter problems or confusing areas
+other than those described below,
+or if you have questions or suggestions for improvement,
+please send them to
+<A HREF="http://www.advbiocomp.com/contact.html">
+us</A>.
+</P>
+
+<UL>
+<LI>
+Due to support added for the amino acid codes <B>J</B> and <B>O</B>,
+XDF <I>protein</I> sequence databases produced with the AB-&nbsp;version of <TT>xdformat</TT>
+are not readable by programs in the old WU-BLAST package.
+For an XDF protein sequence database named &ldquo;foo&rdquo;
+created by WU-<TT>xdformat</TT>,
+the AB-<TT>xdformat</TT> command:
+<PRE>
+     <CODE>xdformat -p -i foo</CODE>
+</PRE>
+will report the alphabet name as
+&ldquo;<TT>NCBIstdaa(1)</TT>&rdquo; (NCBIstdaa version 1).
+The larger amino acid alphabet normally used
+by the AB-&nbsp;version of <TT>xdformat</TT>
+is named &ldquo;<TT>NCBIstdaa(2)</TT>&rdquo; (NCBIstdaa version 2).
+WU-BLAST only uses the version 1 alphabet,
+whereas AB-<EM>BLAST</EM> creates and updates databases using version 2,
+can read databases in either alphabet,
+and can read combinations of the two alphabets in virtual databases.
+<BR>
+<I>N.B.: If a protein database created by WU-<TT>xdformat</TT>
+is updated using AB-<TT>xdformat</TT>,
+the alphabet is silently updated to NCBIstdaa version 2, which will render
+the database unreadable by programs in the WU-BLAST package.</I>
+This warning does not currently apply to nucleotide sequence databases,
+because no change has thus far been necessary in the nucleotide alphabet
+used by AB-<EM>BLAST</EM>.
+</LI>
+<LI>
+<B>AB-<EM>BLAST</EM> 3.0 establishes a new default scoring system for <TT>BLASTN</TT></B>.
+Much confusion
+&mdash; and at times much consternation &mdash;
+has been caused by the default WU-<TT>BLASTN</TT> scoring system
+being quite different from the default nucleotide scoring system
+used by the NCBI <TT>blastall</TT> program.
+For the sake of long-range compatibility and consistency,
+the WU-<TT>BLASTN</TT> default +5/&minus;4 (match/mismatch) scoring system,
+which dates back to the earliest incarnations of <TT>BLASTN</TT> at the NCBI
+in 1989,
+had been left unchanged.
+The NCBI changed its default nucleotide scoring system to +1/&minus;3 upon introduction
+of <TT>blastall</TT> in 1997.
+The +1/&minus;3 scoring system selects for nearly identical sequences.
+The newer default scoring system is more consistent
+with the <TT>BLASTN</TT> default word length of 11, which also selects
+for nearly identical sequences.
+With the transition of WU-BLAST to AB-<EM>BLAST</EM>,
+the decision was made to eliminate the inconsistency
+between the default scoring system and default word length,
+by making the default nucleotide scoring system used by AB-<EM>BLAST</EM>
+be the same as that used by NCBI <TT>blastall</TT>
+(<I>i.e.</I>, match and mismatch scores
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#m" TARGET="_blank">M</A><CODE>=1</CODE>,
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#n" TARGET="_blank">N</A><CODE>=&minus;3</CODE>;
+and gap penalties
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#q" TARGET="_blank">Q</A><CODE>=7</CODE>,
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#r" TARGET="_blank">R</A><CODE>=2</CODE>).
+NOTE: The default amino acid scoring system used in all other search modes remains unchanged
+in AB-<EM>BLAST</EM> and is somewhat different from the NCBI amino acid scoring system.
+Another major difference in default behavior
+between WU- and NCBI-BLAST
+&mdash;
+whether or not to filter query sequences for low-complexity regions
+&mdash;
+also remains unchanged in AB-<EM>BLAST</EM>.
+Namely,
+just as WU-BLAST does <I>not</I> filter query sequences by default,
+neither does AB-<EM>BLAST</EM> filter sequences by default.
+</LI>
+
+<LI>
+The amino acid codes
+<B>U</B> (selenocysteine or Sec)
+and
+<B>O</B> (pyrrolysine or Pyl)
+are acceptable in query and database sequences,
+but the scoring matrices distributed with AB-<EM>BLAST</EM> do not specify scores
+for these letters.
+By default these letters are scored the same as alignment with an <B>X</B> (unknown residue)
+would be scored,
+except for their self-alignment scores
+(<I>i.e.,</I> <B>U</B> with <B>U</B> and <B>O</B> with <B>O</B>)
+which are set to 0 by default.
+If more meaningful scores are known, alternative scores for these letters
+can be set explicitly in the amino acid scoring matrices.
+</LI>
+
+<LI>
+The only accepted way to specify an alternative scoring matrix file
+is to refer to the file by name
+(<I>e.g.,</I> <CODE>matrix=BLOSUM55</CODE>)
+and for the file to reside in the current working directory
+or for the path to the file to be
+listed in the <B>BLASTMAT</B> environment variable.
+If both a path and file name to a scoring matrix file are specified,
+such as in <CODE>matrix=/usr/local/blast/matrix/aa/BLOSUM62</CODE>
+or <CODE>matrix=aa/blosum62</CODE>,
+the search programs will claim not to be able to find the file even though
+it may indeed exist and be readable.
+This is a security measure that may allow managers
+of network- or web-based search services to expose
+the command line to users without opening up access to potentially any file
+on the server,
+when the mere knowledge that a file exists might be considered a breach of security.
+</LI>
+
+<LI>
+The gap penalty parameters
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#q" TARGET="_blank">Q</A>
+and
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#r" TARGET="_blank">R</A>
+of AB-<EM>BLAST</EM>
+have similar but important differences in interpretation
+from the parameters <B>G</B> and <B>E</B> of NCBI&nbsp;Gapped BLAST.
+While the two extension penalties
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#r" TARGET="_blank">R</A>
+(AB-<EM>BLAST</EM>) and
+<B>E</B>
+(NCBI&nbsp;BLAST) are analogous,
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#q" TARGET="_blank">Q</A>
+(AB-<EM>BLAST</EM>) is analogous to the <I>sum</I> of <B>G</B> and <B>E</B>
+with NCBI&nbsp;BLAST.
+In other words, where
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#q" TARGET="_blank">Q</A>
+represents the total penalty for a gap of length 1,
+NCBI&nbsp;Gapped BLAST computes this penalty as <B>G + E</B>.
+</LI>
+
+<LI>
+The default sort order for reporting database hits
+is by increasing E-value (most-to-least significant ordering),
+but for a given database hit,
+the alignments or HSPs with that sequence are sorted
+primarily by query strand, secondarily by the database (&ldquo;subject&rdquo;) strand,
+and only then by E-value.
+For example,
+if any alignments of a given database sequence are to the minus strand of the query,
+they will be reported after any alignments to the plus strand,
+even if alignments to the plus strand are less significant.
+In a <TT>TBLASTX</TT> search,
+in which both the query and subject are translated nucleotide sequences,
+for each strand of the query,
+hits to the plus strand of the subject will be reported
+before any hits to its minus strand.
+Consequently, identifying the HSP ascribed with the greatest statistical significance
+may require many lower-significance alignments to be parsed first.
+Naturally, this consideration is not an issue for <TT>BLASTP</TT> searches,
+where only one &ldquo;strand&rdquo; of query and subjects is searched.
+</LI>
+<LI>
+On those rare computing platforms today that do not support &ldquo;large&rdquo; files
+(files >2&nbsp;GB in size),
+users will be unable to search nucleotide sequence databases
+larger than about 8 billion nucleotides or 2 billion amino acids.
+Migrating to a contemporary 32-bit operating system
+&mdash;
+or to a 64-bit computing platform that provides &ldquo;large file&rdquo; support
+&mdash;
+is sufficient to break through the &ldquo;2 GB barrier&rdquo;.
+</LI>
+
+<LI>
+The statistical significance of <I>gapped</I> alignment scores is computed using
+values for <I>&lambda;,</I> <I>K</I> and <I>H</I>
+obtained from built-in,
+<A HREF="#Precomputed-nt">precomputed tables</A>.
+(The values for <I>&lambda;,</I> <I>K</I> and <I>H</I> used to assess the
+significance of <I>ungapped</I> alignment scores are still computed at run time,
+as is practical).
+These parameter values are
+determined by the scoring matrix and gap penalties being used.
+Precomputed values are necessarily not available for
+all scoring matrix and gap penalty combinations, though;
+and the precomputed values may not be well-suited
+to an unusual residue composition of the query or database sequences.
+In cases when precomputed values are <I>un</I>available,
+the programs issue a relevant WARNING message and proceed to evaluate gapped alignment scores
+using values for <I>&lambda;,</I> <I>K</I> and <I>H</I>
+that are likely to be incorrect:
+the values computed at run-time for ungapped alignments.
+In such cases, the reported significance estimates may be <I>highly</I> inaccurate
+and will be biased towards being overly significant.
+If the user knows more accurate parameter values for their situation,
+however,
+the
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#gapk" TARGET="_blank">gapK</A>,
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#gapl" TARGET="_blank">gapL</A>
+and
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#gaph" TARGET="_blank">gapH</A>
+command line options
+can be used to set them.</LI>
+
+
+<LI>
+Selecting an alternative scoring matrix does <I>not</I> alter
+the gap penalties
+(<A HREF="http://blast.advbiocomp.com/doc/parameters.html#q" TARGET="_blank">Q</A>
+and
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#r" TARGET="_blank">R</A>)
+from their default values.
+Leaving gap penalties at their default values when choosing an alternative
+scoring matrix
+can not only result in alignments with undesirable gap characteristics but
+can create a situation in which
+the programs do not have precomputed values in their built-in tables
+for <I>&lambda;,</I> <I>K</I> and <I>H</I>.
+Worst-case, the end result can be that the alignments represent horribly inaccurate
+mappings between the query and subject sequences and the P-values ascribed
+to the alignments are horribly inaccurate as well.
+(Actually, a worst-case scenario might be when the alignments and statistics
+are bad but not bad enough to be noticed by the user, who then proceeds to use
+the results&mdash;both false positives and false negatives&mdash;as though they were meaningful.)
+As described earlier, a <TT>WARNING</TT> message will be displayed when precomputed
+values are not available,
+but nevertheless <I>the search will go on</I>
+and the alignments and statistics may be anywhere from
+slightly to horribly misleading.</LI>
+
+<LI>
+The
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#hspsepqmax" TARGET="_blank">hspsepqmax</A>
+and
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#hspsepsmax" TARGET="_blank">hspsepsmax</A>
+parameters are measures of distance
+in residues along the sequences in the specific form in which they are
+actually compared.
+For instance, in a <TT>BLASTX</TT> search (conceptually translated nucleotide
+query compared against a protein sequence database),
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#hspsepqmax" TARGET="_blank">hspsepqmax</A>
+refers to a distance measured in amino acid residues, not the underlying
+nucleotides in the query.</LI>
+
+<LI>
+<A HREF="http://en.wikipedia.org/wiki/Asn.1" TARGET="_blank">
+ASN.1
+</A>
+formatted output is not available from AB-<EM>BLAST</EM>.
+XML and tab-delimited output formats are recommended instead.
+(See the
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#mformat" TARGET="_blank">
+mformat
+</A>
+parameter.)
+</LI>
+
+</UL>
+
+<HR>
+
+<A NAME="Platforms"></A>
+<H3>Supported Platforms for Standard &amp; Enterprise Editions</H3>
+<P>
+The computing platforms currently supported for
+AB-<EM>BLAST</EM> Standard Edition and Enterprise Edition are listed below.
+(The list of platforms supported for AB-<EM>BLAST</EM> Personal Edition is much
+shorter).
+<I>Software for computing platforms other than those listed here
+may be available upon request, but additional charges may apply.</I>
+</P>
+
+<UL>
+<LI>Linux kernel versions 2.4 and 2.6 for 32-bit i786 (Pentium4) and 64-bit X64</LI>
+<LI>Apple Mac&nbsp;OS X 10.4+ on 32-bit X86 and X64</LI>
+<LI>Apple Mac&nbsp;OS X 10.4+ on 32-bit PowerPC G4 and 64-bit PowerPC G5</LI>
+<LI>Sun Solaris 10 on 64-bit X64</LI>
+</UL>
+<B><I>The list of supported platforms is subject to change without notice.</I></B>
+<BR>
+Multiple processors
+(multithreading or parallel processing)
+are effectively and efficiently
+supported by AB-<EM>BLAST</EM> on all of the above platforms.
+AB-<EM>BLAST</EM> also supports large files
+(files greater than 2&nbsp;GB in size),
+when the host operating system and file system support large files.
+
+<HR>
+<A NAME="Installation"></A>
+<H3>Installation</H3>
+To install AB-<EM>BLAST</EM>,
+the first step is to download the UN*X tar archive of executable files appropriate
+for your computing platform
+from the Advanced Biocomputing, LLC website.
+To locate the software,
+licensed users will have received a confidential URL via e-mail.
+Please note that scoring matrix files and documentation,
+which are not generally platform-specific,
+are nevertheless included in each package.
+No databases are included, however.
+<P>
+Unpack the tar archive in a new, empty directory.
+For convenience, precompiled and optimized versions
+of the low-complexity sequence filters
+(<I>e.g.,</I> <A HREF="http://blast.advbiocomp.com/pub/seg/">seg</A>,
+<A HREF="http://blast.advbiocomp.com/pub/xnu/">xnu</A>,
+and
+<A HREF="http://blast.advbiocomp.com/pub/dust/">dust</A>)
+are included (see the <TT>filter/</TT> subdirectory that gets created),
+along with two sequence redundancy removal programs
+<A HREF="http://blast.advbiocomp.com/pub/nrdb/">nrdb</A>
+and <TT>patdb</TT>.
+</P>
+
+<P CLASS="indented">
+<I>Users of Mac&nbsp;OS&nbsp;X 10.6 (&ldquo;Snow Leopard&rdquo;) <font color="red">Only</font></I>
+<BR>
+To ensure proper, complete unpacking of tar archives on normal, case-insensitive HFS+ file systems,
+use the Terminal app to execute the command:
+</P>
+
+<PRE>
+          <TT>gnutar zxf <I>&lt;archive.tar.gz&gt;</I></TT>
+</PRE>
+
+<P CLASS="indented">
+where <I><TT>&lt;archive.tar.Z&gt;</TT></I> is substituted with the name of the AB-<EM>BLAST</EM> archive you downloaded.
+The use of <TT>gnutar</TT> is needed to avoid a bug in the version of <TT>tar</TT> currently distributed with Snow Leopard
+(at least up to version 10.6.1) that involves the treatment of hard-linked files.
+</P>
+
+<P>
+The executable programs from the tar archive may be moved as desired
+into any directory listed in the <CODE>PATH</CODE> environment variable,
+whether this means adding the newly created directory to the <CODE>PATH</CODE>
+or moving the executables
+into an existing directory already listed in the <CODE>PATH</CODE>.
+(Lots of information about interrogating and setting environment variables
+&mdash;
+and about the <CODE>PATH</CODE> environment variable itself
+&mdash;
+can be found in Google and other
+search engines using the query &ldquo;PATH environment variable&rdquo;).
+If the software is installed in a directory that was already listed
+in the <CODE>PATH</CODE>,
+it may be necessary to exit the currently open shell and open a new one
+in order for the shell to recognize the existence
+of the newly installed programs.
+</P>
+
+<P>
+Note that the files
+<TT>blastp</TT>, <TT>blastn</TT>, <TT>blastx</TT>, <TT>tblastn</TT> and <TT>tblastx</TT>
+are actually &ldquo;hard&nbsp;links&rdquo; to the same executable program,
+<TT>blasta</TT>,
+that encodes the integrated capabilities of all 5 search methods.
+If desired, the links can be renamed, as long as the original names appear as substrings
+within the new names.
+Alphabetic case is unimportant.
+For instance, a link named ab-blastp will still invoke <TT>blasta</TT>
+in its <TT>blastp</TT> operational mode.
+</P>
+
+<P>
+<I>A Note to Mac OS X Users</I>
+<BR>
+AB-<EM>BLAST</EM> software is intended to be invoked via a CLI (command line interface).
+Programs will need to be invoked either using the Terminal application
+(located in the /Applications/Utilities folder)
+or from within a script or other application provided by a third party.
+The programs bundled with AB-<EM>BLAST</EM> are not themselves intended to be double-clicked to execute.
+</P>
+
+<P>
+<I>A Note About File Permissions and File Copying</I>
+<BR>
+The AB-<EM>BLAST</EM> package is copyrighted and only available under license.
+To help ensure users of the software
+do not unintentionally copy or distribute it,
+all copies of binary files are recommended to be maintained
+with execute-only permissions.
+As delivered in the software archives from Advanced Biocomputing, LLC,
+execute-only permissions have already been set,
+but if the binary files should be copied by you,
+these permissions may become altered and thus allow other users
+to then copy the software in an unauthorized manner.
+Restoration of execute-only permissions to an executable program file
+can be accomplished by running the command:
+</P>
+<PRE>
+    <TT>chmod&nbsp;a-rw,a+x&nbsp;<I>filename</I></TT>
+</PRE>
+<P>
+where <I><TT>filename</TT></I> is the name of the executable file.
+</P>
+
+<BR>
+<P>
+<I>If you already had AB-<EM>BLAST</EM> (or WU-BLAST) installed (with BLAST-able databases),
+your installation or update of AB-<EM>BLAST</EM> is essentially complete.
+If you did not have AB-<EM>BLAST</EM> or WU-BLAST installed,
+read on...
+</I>
+</P>
+
+<P>
+Unpacking the tar archive creates a <B>matrix/</B> subdirectory containing scoring
+matrix files.
+Wherever this directory ultimately resides,
+the <B>ABBLASTMAT</B> (BLASTMAT) environment variable should be set to point there.
+In the absence of this environment variable being set,
+AB-<EM>BLAST</EM> programs first look for scoring matrix files
+in any <CODE>matrix/</CODE> subdirectory
+of the directory in which the search programs themselves reside
+and then in the <CODE>/usr/ncbi/blast/matrix</CODE> directory.
+</P>
+
+<P>
+Low-complexity sequence filters or masking programs &mdash;
+<I>e.g.</I>,
+<A HREF="http://blast.advbiocomp.com/pub/seg/" TARGET="seg">seg</A>,
+<A HREF="http://blast.advbiocomp.com/pub/xnu/" TARGET="xnu">xnu</A>
+and
+<A HREF="http://blast.advbiocomp.com/pub/dust/" TARGET="dust">dust</A> &mdash;
+are now <I>included</I> in the tar archives described here.
+The bundled versions of these programs are precompiled and optimized.
+While these filter programs are not required for running the search programs,
+they can enormously reduce the amount of garbage output produced,
+memory used, and search time taken.
+Hence, it is highly recommended that these programs be made available to users.
+Whatever directory you install the filter programs in,
+the <TT>BLASTFILTER</TT> (or <TT>ABBLASTFILTER</TT>) environment variable should be set to point there.
+In the absence of this environment variable being set,
+the programs look for masking programs in any <CODE>filter/</CODE>
+subdirectory of the directory in which the search programs themselves reside
+and then in <CODE>/usr/ncbi/blast/filter</CODE>.
+</P>
+
+<P>
+<I>NOTE:</I> unlike NCBI BLAST,
+the AB-<EM>BLAST</EM> search programs do <I>not</I> employ sequence filtering by default.
+This behavior might change in the future, though.
+In case the search programs are updated on your system without warning
+and you wish to guarantee in an automated analysis pipeline
+that no filtering will ever be performed,
+just specify <CODE>filter=none</CODE> on the command line.
+</P>
+
+<P>
+The databases themselves are obviously not included with the software.
+Once the source databases have been downloaded from any of many Internet sites,
+the database files are typically uncompressed and processed into <TT>FASTA</TT> format,
+if they are not in <TT>FASTA</TT> format already.
+Included in the tar archives are several utility programs for converting
+textual database files:
+</P>
+
+<UL>
+<LI><CODE>gb2fasta</CODE> converts the nucleotide sequences in
+<A HREF="http://www.ncbi.nlm.nih.gov/genbank" TARGET="GenBank Flat Files">GenBank flat files</A>
+into <TT>FASTA</TT> format.
+</LI>
+<LI><CODE>gt2fasta</CODE> converts the CDS translations in
+<A HREF="http://www.ncbi.nlm.nih.gov/genbank" TARGET="GenBank Flat Files">GenBank flat files</A>
+into <TT>FASTA</TT> format.
+</LI>
+<LI><CODE>sp2fasta</CODE> converts
+<A HREF="ftp://ftp.ebi.ac.uk/pub/databases/embl/" TARGET="EMBL Flat Files">EMBL</A>
+or
+<A HREF="http://au.expasy.org/sprot/" TARGET="Swiss-Prot">Swiss-Prot</A>
+flat files into <TT>FASTA</TT> format.
+</LI>
+</UL>
+The NCBI software
+<A HREF="ftp://ftp.ncbi.nih.gov/toolbox/" TARGET="NCBI Toolbox">Toolbox</A> also contains some relevant parsers.
+One of these is
+<CODE>asn2fsa</CODE>, which converts both nucleotide and peptide sequences in
+<A HREF="ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/asn2fsa/" TARGET="GenBank ASN.1">GenBank ASN.1 format</A>
+into <TT>FASTA</TT> format files.
+The <CODE>asn2ff</CODE> parser,
+which converts GenBank ASN.1 data into other flat file formats,
+may also come in handy, especially if you are inclined to parse GenBank
+into <TT>FASTA</TT> using your own routines
+or to using the gb2fasta and gt2fasta programs mentioned above.
+<P>
+All of the above parsers can read from standard input (sometimes signified by a single dash, &ldquo;-&rdquo;),
+so their input files can be maintained on disk in compressed format and dynamically zcat-ed or gunzip-ed
+directly into the parsers, thus saving the time and storage required for the uncompressed data.
+Because a dash is often used to signify the start of each command line option,
+if a dash is needed to specify standard input for the required input file name argument,
+some of these programs require that a double-dash (<CODE>--</CODE>)
+be specified on the command line before the single-dash.
+This double-dash signifies the end of the command line options and the
+start of the required arguments.
+</P>
+
+<P>
+Once a source database is in <TT>FASTA</TT> format,
+the <TT>xdformat</TT> program
+should be used to convert it into &ldquo;blastable&rdquo; format.
+Concise usage instructions for <TT>xdformat</TT> (and <TT>xdget</TT>)
+can be obtained by invoking each program without any command line arguments.
+By default,
+<TT>xdformat</TT> produces 3 output files whose names are derived from the name
+of the <TT>FASTA</TT> input file.
+The 3 output files have distinct file name extensions and
+together comprise the blastable database.
+If sequence identifiers are optionally indexed during database creation,
+the blastable database will consist of a total of 4 output files.
+Databases formatted by <TT>xdformat</TT>
+contain full ambiguity code information within the blastable database files it produces.
+</P>
+
+<P>
+By default, if any unrecognized amino acid or nucleotide codes are encountered
+or if the <TT>FASTA</TT> input file should otherwise appear corrupt,
+<TT>xdformat</TT> will emit an error message and halt.
+In such cases, if the blastable database was to be newly created,
+<TT>xdformat</TT> will remove the blastable database files before halting.
+If an existing blast database was being appended with new sequences when the error arose,
+the blastable database will be rolled back to its original state prior to the update attempt
+with none of the new sequences appended.
+</P>
+
+<P>
+While formatting the database,
+the <TT>xdformat</TT> program can optionally (<B>-I</B> option)
+index the sequence identifiers
+for later identifier-based retrieval with the <TT>xdget</TT> program.
+XDF databases that were formatted without an identifier index
+can have an index created <I>post hoc</I> by <TT>xdformat</TT>
+with its <B>-X</B> option.
+It may be of interest to note
+for the purposes of their maintenance
+that <TT>xdformat</TT> and <TT>xdget</TT> are actually one-and-the-same
+program file,
+merely invoked under the two different names to obtain the two
+different program behaviors.
+This helps ensure that the index created with <TT>xdformat</TT>
+will be compatible with <TT>xdget</TT>.
+See the file "FAQ-Indexing.html" for more details on identifier indexing.
+</P>
+
+<P>
+For compatibility with legacy BLAST installations,
+the <TT>xdformat</TT> program can function
+in a <TT>setdb</TT>- and <TT>pressdb</TT>-compatibility mode,
+wherein its behavior is similar to that of setdb and pressdb.
+In its compatibility mode, a similar command line structure is used
+and the output files produced have the same names as those produced by setdb and pressdb.
+Compatibility mode is invoked
+when <TT>xdformat</TT> is renamed or has links pointing
+to it named <TT>setdb</TT> and <TT>pressdb</TT>.
+While the files produced in compatibility mode have the same <I>file names</I> as those
+produced by the original <TT>setdb</TT> and <TT>pressdb</TT> programs
+(<TT>setdb.real</TT> and <TT>pressdb.real</TT>),
+the <I>content</I> of these files is always XDF.
+Versions of the <B>BLASTA</B> search program dated on or after <B>1999-12-14</B>
+are able to work with the more-capable XDF databases.
+</P>
+
+<P>
+Note that two XDF databases &mdash;
+one protein and one nucleotide &mdash;
+can be created with the exact same name and exist in the exact same directory,
+because the 3-letter extensions of XDF database file names are distinct
+for protein sequence databases and nucleotide sequence databases.
+</P>
+
+<P>
+If <TT>xdformat</TT> and the legacy <TT>setdb</TT> and <TT>pressdb</TT> programs
+have all been used to create databases with the same name that reside in the same directory,
+the BLAST search programs will preferentially search the databases
+created with <TT>xdformat</TT> which will have the standard XDF database
+file name extensions.
+Note that two XDF databases &mdash;
+one protein and one nucleotide &mdash;
+can be created with the same name and exist in the same directory,
+because the file name extensions of XDF database files are distinct
+for protein sequence databases and nucleotide sequence databases.
+</P>
+
+<P>
+Using the <B>-t</B> option to <TT>xdformat</TT>,
+a descriptive name or title can be assigned to a database that will appear in BLAST search output.
+The title of an existing database can be changed after its creation,
+by appending an empty <TT>FASTA</TT> database and specifying the -t option with the desired new title.
+For example,
+</P>
+
+<PRE>
+
+     xdformat -n -a mydb -t "Fancy New Title" /dev/null
+
+</PRE>
+
+<P>
+The blastable database files can be placed anywhere,
+but for convenience the <TT>BLASTDB</TT> environment variable
+should include their directory location.
+If the <TT>BLASTDB</TT> environment variable is not set,
+the programs look for databases by default
+in <CODE>/usr/ncbi/blast/db</CODE> and in the current working
+directory.
+If the old <TT>pressdb</TT> program (instead of <TT>xdformat</TT>)
+is used to create the blastable database,
+the associated nucleotide sequence <TT>FASTA</TT> file must be located
+in the same directory as the three output files from <TT>pressdb</TT>,
+if the BLAST search programs are to find the <TT>FASTA</TT> file.
+It may sometimes be useful to maintain the <TT>FASTA</TT> files
+in a separate directory &mdash; even on another disk partition &mdash; and
+provide UNIX soft links in the <TT>BLASTDB</TT> directory that point to the
+real location of the <TT>FASTA</TT> files.
+In addition, on systems where NCBI BLAST will not be in use,
+blastable databases can be maintained in multiple directories listed
+in the <TT>BLASTDB</TT> environment variable,
+with each directory name delimited from the next by a colon (<CODE>:</CODE>),
+just as directory names are often delimited
+in the PATH environment variable.
+</P>
+
+<P>
+On multi-processor computer systems,
+the search programs will employ
+as many CPUs as are installed;
+when more than about 4 CPUs are used,
+this default behavior cause efficiency of hardware utilization
+to be quite low,
+compared to running individual single-threaded BLAST jobs
+on each CPU.
+Memory use also increases linearly with the number of CPUs or threads
+employed.
+One way to govern the number of processors employed is
+to wrap the search programs in a shell script that sets a lower
+number of CPUs via the <B>cpus=#</B> command line option.
+Another, simpler approach to changing the default number of CPUs
+for all users follows below,
+for implementation by BLAST system managers possessing
+&ldquo;root&rdquo; or &ldquo;SuperUser&rdquo; privileges.
+</P>
+
+<P>
+Distributions of AB-<EM>BLAST</EM>
+include a sample file named <B>sysblast.sample</B>,
+that illustrates the system-wide configuration parameters
+that can be established to govern the execution of <TT>BLAST</TT> jobs
+and, thereby, provide a more productive, trouble-free level of service.
+When the sysblast file is installed under the name <B>/etc/sysblast</B>,
+all <TT>BLAST</TT> jobs executed on a given computer system can be made
+subject to the parameters:
+</P>
+
+<UL>
+<LI><B>cpusmax</B>=<I>&lt;n&gt;</I>:  a hard limit on the number of CPUs or threads employed
+by each <TT>BLAST</TT> job;
+it is possible to prohibit <TT>BLAST</TT> searches entirely
+on a given computer by configuring a negative value for <B>cpusmax</B>;
+</LI>
+<LI><B>cpus</B>=<I>&lt;n&gt;</I>:  the default number of CPUs or threads employed per <TT>BLAST</TT> job;
+</LI>
+<LI><B>nice</B>=<I>&lt;n&gt;</I>:  a &ldquo;nice&rdquo; value for altering the priority of <TT>BLAST</TT> processes;
+		As is standard for UNIX operating systems:
+	<UL>
+		<LI>positive nice values correspond to <I>lower</I> priority
+		</LI>
+		<LI>only the root user can run at negative nice values (higher priority);
+		</LI>
+		<LI>any nice value set in /etc/sysblast is added to the current nice value of a <TT>BLAST</TT> process.</LI>
+	</UL>
+</LI>
+<LI><B>memmax</B>=<I>&lt;n&gt;</I>:  the maximum amount of memory that may be
+allocated by any single <TT>BLAST</TT> job.
+	The interpretation and recommended usage of <B>memmax</B> are:
+	<UL>
+	<LI>
+	<I>memmax</I> is expressed in units of bytes,
+	with optional modifiers
+	<B>k</B> (kilobytes), <B>m</B> (megabytes), and <B>g</B> (gigabytes).
+	</LI>
+	<LI>
+	It is almost certainly a <B><I>bad idea</I></B> to set memmax to a value that is
+	greater than the actual amount of memory (silicon RAM) installed
+	in the computer;
+	</LI>
+	<LI>
+	If <I>memmax=0</I>, the effective limit is &ldquo;unlimited&rdquo;, or the natural
+	upper limit for a process executing under the given operating system;
+	</LI>
+	<LI>
+	Values of <I>memmax&nbsp;&lt;&nbsp;0</I> are ignored, in which case
+	the standard UNIX <B>datasize</B> resource limit set by the
+	user&rsquo;s command shell governs <TT>BLAST</TT> memory usage instead;
+	</LI>
+	</UL>
+</LI>
+</UL>
+
+<P>
+The <B>sysblast</B> file is only effective when installed in the <CODE>/etc</CODE> directory.
+The <CODE>/etc</CODE> directory generally resides locally to any given computer system,
+so parameter settings can be tailored to each computer,
+even if the <TT>BLAST</TT> software is maintained on a shared disk partition.
+The <CODE>/etc</CODE> directory should only be writable by &ldquo;root&rdquo;.
+Unlike the shell script wrapper approach described above, 
+the limits set in /etc/sysblast typically can not be circumvented
+by normal (non-root) users of a computer system.
+See the comments included in the sample sysblast file for further details.
+</P>
+
+
+<HR>
+<A NAME="Differences"></A>
+<H3>
+Differences between AB-<EM>BLAST</EM> and WU-BLAST</H3>
+<P>
+Apart from bug fixes, the most outward differences in usage and appearance
+of AB-<EM>BLAST</EM> and WU-BLAST include:
+</P>
+
+<UL>
+
+<LI>The default scoring system for AB-<TT>BLASTN</TT> is
+match/mismatch scores <TT>M=+1 N=&minus;3</TT> with gap penalties <TT>Q=7 R=2</TT>;
+whereas WU-<TT>BLASTN</TT> uses
+<TT>M=+5 N=&minus;4</TT> with gap penalties <TT>Q=10 R=10</TT> by default.
+</LI>
+
+<LI>
+In all search modes, the default value for the gapped alignment drop-off score
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#gapx" TARGET="_blank">
+<TT>gapX</TT>
+</A>
+is &asymp;50% higher for AB-<EM>BLAST</EM>,
+which will tend to make the AB-<EM>BLAST</EM> search programs
+slightly more sensitive and just slightly slower.
+</LI>
+
+<LI>
+AB-<EM>BLAST</EM>
+supports an expanded amino acid alphabet,
+compared to the amino acid alphabet used by WU-BLAST.
+Programs in the WU-BLAST package are consequently unable to search or modify
+protein sequence databases that were created or modified by AB-<TT>xdformat</TT>.
+Once a protein sequence database created with WU-<TT>xdformat</TT>
+has been modified by AB-<TT>xdformat</TT>,
+it can no longer be searched or modified by any of the WU-BLAST programs.
+Databases created by WU-<TT>xdformat</TT> can be searched
+and modified by the AB-<EM>BLAST</EM> programs.
+At least for the time being,
+the AB-<EM>BLAST</EM> search programs can also search virtual databases
+that are a combination of databases created
+with WU-<TT>xdformat</TT> and AB-<TT>xdformat</TT>.
+<BR>
+No difference currently exists between the nucleotide alphabets used
+by AB-<EM>BLAST</EM> and WU-BLAST
+or the ability of programs in either package
+to search/modify nucleotide sequence databases created/modified
+by programs in the other package.
+</LI>
+
+<LI>
+The bundled <TT>BLOSUM30</TT> and <TT>BLOSUM35</TT> scoring matrices
+have been re-scaled to provide better precision.
+</LI>
+
+<LI>
+The bundled amino acid scoring matrices
+&mdash; and the matrices output by the <TT>pam</TT> program &mdash;
+now contain a <TT>J</TT> row and a <TT>J</TT> column.
+These matrices are incompatible with WU-BLAST,
+which does not support the letter <TT>J</TT> and will report a FATAL error
+when reading the files.
+The AB-<EM>BLAST</EM> amino acid scoring matrices are slightly different
+from the matrices distributed by the NCBI,
+which also indicate scores for the letter <TT>J</TT>,
+but at the time of this writing the NCBI matrices are cross-compatible with AB-<EM>BLAST</EM>.
+</LI>
+
+<LI>
+AB-<EM>BLAST</EM> supports the amino acid letter code <TT>O</TT> (&ldquo;oh&rdquo;)
+normally used to represent Pyrrolysine (Pyl),
+whereas WU-BLAST does not.
+The letter <TT>O</TT> may appear in query sequences, database sequences, scoring matrix files
+and with command line parameters such as the
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#altscore" TARGET="_blank">
+<TT>altscore</TT>
+</A>
+option,
+but the scoring matrices bundled with AB-<EM>BLAST</EM> do not actually utilize this letter.
+The default score for aligning any other letter
+with <TT>O</TT> is the same score as for aligning with <TT>X</TT>,
+whereas the <TT>O</TT> self-alignment score defaults to zero (0).
+</LI>
+
+<LI>
+The AB-<EM>BLAST</EM> 3.0 search programs support a new
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#compat2.0" TARGET="_blank">
+<TT>compat2.0</TT>
+</A>
+option to obtain roughly equivalent parameter
+settings to those used by WU-BLAST 2.0.
+</LI>
+
+<LI>The analog to <TT>wu-blastall</TT> is named <TT>ab-blastall</TT>.
+</LI>
+
+<LI>The analog to <TT>wu-formatdb</TT> is named <TT>ab-formatdb</TT>.
+</LI>
+
+<LI>
+AB-<EM>BLAST</EM> programs preferentially use settings
+of the new environment variables
+<TT>ABBLASTMAT</TT>, <TT>ABBLASTDB</TT> and <TT>ABBLASTFILTER</TT>.
+See the section on
+<A HREF="#EnvVars">Environment Variables</A> for important details.
+When upgrading from WU-BLAST to AB-<EM>BLAST</EM>,
+due to the support for the letter <TT>J</TT> in AB-<EM>BLAST</EM>,
+it is important to ensure that the AB-<EM>BLAST</EM> search programs
+use the bundled scoring matrices
+rather than the old matrices that were distributed with WU-BLAST,
+because of the latter matrices&rsquo; lack of support for the letter <TT>J</TT>.
+</LI>
+
+<LI>The maximum allowable value for the
+<A HREF="http://blast.advbiocomp.com/doc/parameters.html#dbslice" TARGET="_blank">
+<TT>dbslice</TT>
+</A>
+parameter has been increased.
+</LI>
+
+<LI>
+The <A HREF="#sp2fasta"><TT>sp2fasta</TT></A>
+program parses input more reliably.
+</LI>
+
+<LI>Each release of AB-<EM>BLAST</EM> is generally distributed in 3 &ldquo;Editions&rdquo;
+&mdash; Personal, Standard and Enterprise &mdash;
+which differ from each other in the degree of parallelism they support,
+whereas WU-BLAST was distributed in a single version.
+</LI>
+
+<LI>The first few lines of output, including the program declaration line
+and copyright notice, are different.
+See
+<A HREF="#Citing">Citing BLAST</A> for examples of the program declaration line
+from AB-<EM>BLAST</EM>.
+</LI>
+
+<LI>
+Programs in the AB-<EM>BLAST</EM> package that use the UNIX standard
+<TT>getopt()</TT> function to parse the command line
+will now uniformly across all computing platforms
+produce &ldquo;POSIXLY_CORRECT&rdquo; behavior.
+(<I>N.B.</I> The BLAST search programs do <I>not</I> use <TT>getopt()</TT>,
+but most other programs in the package,
+including <TT>xdformat</TT> and <TT>xdget</TT>, do).
+This means some command lines that are acceptable to WU-BLAST
+on some computing platforms (usually Linux)
+may be rejected by AB-<EM>BLAST</EM> and need to be restructured.
+This can happen if all parameters and flags are not specified
+before (to the left of) the required command line arguments.
+</LI>
+
+<LI>
+Better thread management under energy conservation conditions.
+</LI>
+
+<LI>
+Better memory management under Mac OS X.
+</LI>
+
+</UL>
+
+<HR>
+
+<A NAME="Citing"></A>
+<H3>
+Citing BLAST</H3>
+<P>
+Citations or acknowledgments of AB-<EM>BLAST</EM> usage are greatly appreciated,
+as are any personal accounts of how the software is being used
+that you might wish to share.
+When URLs are acceptable, please cite with:
+</P>
+
+<PRE>
+   Gish, W. (1996-2009) http://blast.advbiocomp.com
+</PRE>
+
+<P>
+When URLs are not acceptable, please use:
+</P>
+
+<PRE>
+   Gish, W. (unpublished).
+</PRE>
+
+
+<P>
+In scientific communications,
+it is important to report
+both the program name <I>and</I> the specific version used.
+In the case of AB-<EM>BLAST</EM>,
+the version is a combination of the version number, edition (Personal, Standard, or Enterprise),
+release date,
+target platform,
+and build date.
+The release date is the first (left-most) date displayed on the first line
+of output and corresponds to the completion date of the source code.
+The build date is the second date reported
+and corresponds to the date and time the executables were built for the indicated target platform.
+Both dates are reported in
+<A HREF="http://en.wikipedia.org/wiki/ISO_8601">ISO&nbsp;8601</A> format.
+</P>
+
+<P>
+For example, consider this introductory line of output
+from AB-<EM>BLAST</EM> 3.0 Standard Edition:
+</P>
+
+<PRE>
+  BLASTN 3.0SE-AB [2009-05-29] [sol10-x64-ILPF64 2009-05-30T01:25:46]
+</PRE>
+
+<P>
+Here the program name is <TT>BLASTN</TT>, the software version is &ldquo;3.0SE&rdquo;
+from &ldquo;AB&rdquo; (Advanced Biocomputing, LLC),
+the release date is May 29, 2009,
+and the build date of the 64-bit Solaris 10 X64 binary
+is May 30, 2009, at 1:25 AM.
+&ldquo;ILPF64&rdquo; in the target platform description indicates
+integers (I), long integers (L), memory pointers (P), and file pointers (F) were all compiled with 64-bits precision.
+</P>
+
+<P>
+The first line of output from AB-<EM>BLAST</EM> Personal Edition
+substitutes the letters &ldquo;PE&rdquo; for SE,
+as shown in this example:
+</P>
+
+<PRE>
+   BLASTP 3.0PE-AB [2009-09-27] [linux26-x64-ILPF64 2009-09-27T18:03:31]
+</PRE>
+
+<P>
+The first line of output from AB-<EM>BLAST</EM> Enterprise Edition
+substitutes the letters &ldquo;EE&rdquo; for SE:
+</P>
+
+<PRE>
+   TBLASTX 3.0EE-AB [2009-09-27] [linux26-x64-ILPF64 2009-09-27T18:03:31]
+</PRE>
+
+
+<HR>
+<A NAME="History"></A>
+<H3>
+Historical Notes</H3>
+
+<UL>
+<LI>The original description of the
+<A HREF="http://blastalgorithm.com" TARGET="_blank">
+BLAST algorithm
+</A>
+was published by
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/2231712" TARGET="_blank">
+Altschul <I>et al.</I> (1990)</A>.
+In addition to the algorithm itself,
+<TT>BLASTP</TT> and <TT>BLASTN</TT> functionality are described,
+without referring to the programs by name.
+<TT>BLASTX</TT>-like functionality is briefly mentioned as being in progress
+(again not by name),
+but <TT>TBLASTN</TT> was actually the third BLAST search mode implemented.
+Statistical significance of the ungapped alignments found by the programs
+was assessed using
+&ldquo;<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/2315319" TARGET="_blank">Karlin-Altschul</A>&rdquo; statistics
+&mdash; sometimes also referred to as
+&ldquo;Karlin-Dembo-Altschul&rdquo; statistics,
+due to the major contribution of
+<A HREF="#Karlin_Dembo_Kawabata_1990">
+Amir Dembo</A>.
+</LI>
+<LI>
+In December 1989,
+prior to the development of the World Wide Web,
+the NCBI
+<I>Experimental BLAST Network Service</I>
+was opened to the public.
+The BLAST network service provided fast, convenient client-server access
+from anywhere on the Internet
+to the very latest versions of the recently parallelized BLAST search programs
+running on powerful 8&ndash;16 processor Silicon Graphics servers at the NCBI.
+The BLAST servers searched against a comprehensive set of public sequence databases
+that were updated daily.
+Users could access the BLAST servers transparently using a UN*X command line client
+that was invoked just like the BLAST application programs themselves,
+or via a graphical client named HyperBLAST (J.M. Cherry, 1990, unpublished)
+created with
+<A HREF="http://en.wikipedia.org/wiki/Hypercard" TARGET="_blank">HyperCard</A>.
+At about this time, the
+&ldquo;<TT>nr</TT>&rdquo;
+(quasi-non-redundant) protein and nucleotide sequence databases
+were also established (W. Gish, unpublished).
+The <TT>nr</TT> database &mdash; protein and nucleotide &mdash;
+quickly became the standard database searched with BLAST,
+and users could often do so in a matter of just a few seconds.
+The experimental BLAST service was ultimately discontinued
+a decade later, in March 2000.
+Experience gained from providing a service that could
+arbitrate many simultaneous and diverse requests for BLAST
+helped Gish design a more flexible and robust network service
+architecture known as the NCBI &ldquo;Dispatcher&rdquo;,
+which was then largely implemented by others at the NCBI
+(principally Jonathan Epstein) and went into operation ca. 1995.
+At the request of NCBI management,
+the experimental BLAST service was never published
+and remains W.&nbsp;Gish (unpublished).
+Awareness of the service nevertheless spread quickly by word-of-mouth,
+as was the case for the later WU&nbsp;BLAST.
+</LI>
+
+<LI>
+The <TT>BLASTX</TT> program first appeared in the release of
+BLAST version 1.1 in July 1990.
+The program was later described and evaluated by
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/8485583" TARGET="_blank">
+Gish and States (1993)</A>.
+The <TT>BLAST3</TT>
+program
+(<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/2196570" TARGET="_blank">
+Altschul and Lipman, 1990</A>) was also folded into the BLAST&nbsp;1.1 release
+and parallelized.
+The use of Poisson statistics
+to evaluate the joint probability of multiple HSPs from a given (query,subject)
+sequence pair,
+as had been suggested by
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/2315319" TARGET="_blank">
+Karlin and Altschul (1990)</A>,
+was also first featured in BLAST&nbsp;1.1.
+</LI>
+
+<LI>
+The <TT>BLASTC</TT> program,
+a specialized version of <TT>BLASTX</TT> that considered codon usage information
+in addition to sequence similarity
+(<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/8790452" TARGET="_blank">States and Gish, 1994</A>),
+appeared only once,
+in the
+<A HREF="http://blast.advbiocomp.com/blast-1.3/" TARGET="_blank">
+BLAST&nbsp;1.3</A>
+distribution.
+The BLAST&nbsp;1.3 distribution was also the last to include the <TT>BLAST3</TT>
+program.
+</LI>
+
+<LI>
+BLAST&nbsp;1.4
+(W.&nbsp;Gish, 1994, unpublished)
+was the first version to use
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/8390686" TARGET="_blank">
+Karlin and Altschul (1993)</A>
+&ldquo;Sum&rdquo; statistics
+to evaluate the joint probability of finding multiple HSPs between a given pair of sequences.
+Sum statistics were found to be more practical in a biological context
+than the Poisson statistics utilized by default in BLAST&nbsp;1.3.
+</LI>
+
+<LI>
+The <TT>TBLASTX</TT> program first appeared in BLAST&nbsp;1.4
+and remains attributable to W.&nbsp;Gish (1994, unpublished).
+</LI>
+
+<LI>
+All five of the supported BLAST programs in BLAST&nbsp;1.4
+(<TT>BLASTP</TT>, <TT>BLASTN</TT>, <TT>TBLASTN</TT>,
+<TT>BLASTX</TT> and <TT>TBLASTX</TT>)
+were for the first time coded
+using a standard API (application programming interface)
+to a generalized BLAST function library.
+This function library made maintenance and improvements to the five core programs easier
+and aided the development of more specialized BLAST applications,
+such as Entrez sequence neighboring tools and specialized EST analysis tools.
+</LI>
+
+<LI>
+The first release of <B>WU&nbsp;BLAST</B> was numbered&nbsp;1.4,
+which was virtually identical to the public domain NCBI BLAST&nbsp;1.4,
+save for a few bug fixes.
+The <B>WU&nbsp;BLAST&nbsp;Archives</B> (original URL http://blast.wustl.edu)
+first appeared on the Internet in 1995,
+to provide continuity of support for the work Warren Gish began at the NCBI,
+as well as to provide a central resource where the community could find
+BLAST-related software, information and earlier versions.
+</LI>
+
+<LI>
+In late 1994
+at the invitation of Warren Gish,
+who had recently moved to Washington University in St.&nbsp;Louis,
+Stephen Altschul and he engaged in a collaboration to test
+Gish&rsquo;s hypotheses that:
+
+<UL>
+<LI>Sum statistics
+(<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/8390686" TARGET="_blank">Karlin and Altschul, 1993</A>)
+allowed the precise evaluation of multiple <EM>ungapped</EM> alignment scores,
+using the analytically computed ungapped parameters
+<I>&lambda;<sub>u</sub></I>, <I>K<sub>u</sub></I> and <I>H<sub>u</sub></I>.
+Extreme Value statistics
+&mdash; analogous to the statistics for ungapped alignment scores published by
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/2315319" TARGET="_blank">
+Karlin and Altschul (1990)</A>
+&mdash;
+had been shown empirically to be good estimators
+of the statistical significance of individual gapped alignments
+from Smith-Waterman comparisons,
+using empirical estimates for the gapped parameters
+<I>&lambda;<sub>g</sub></I> and <I>K<sub>g</sub></I>
+(<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/2314288" TARGET="_blank">Collins and Coulson,&nbsp;1990</A>;
+<A HREF="#Mott_1992">Mott,&nbsp;1992</A>;
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/8197109" TARGET="_blank">Waterman and Vingron,&nbsp;1994</A>).
+It stood to reason that
+Sum statistics might be extended empirically to evaluating
+multiple <I>gapped</I> alignment scores, using empirically estimated parameters
+<I>&lambda;<sub>g</sub></I>, <I>K<sub>g</sub></I> and <I>H<sub>g</sub></I>;
+</LI>
+<LI>
+while good estimates for
+<I>&lambda;<sub>g</sub></I>, <I>K<sub>g</sub></I> and <I>H<sub>g</sub></I> could be
+computed through lengthy (expensive) Monte Carlo simulations
+for a specific scoring system and particular pair of sequences,
+fixed estimates for these parameters precomputed
+for sequences of &ldquo;average&rdquo; composition
+would work <I>well enough</I> as to be of practical use
+in comprehensive database searches;
+and
+</LI>
+<LI>
+for the search algorithm itself,
+multiple, locally optimal gapped alignments between two sequences
+could be approximated by a two-stage BLAST implementation
+that would remain fast, yet be far more sensitive than ungapped BLAST,
+produce more-easily interpreted alignments,
+and yield alignment scores suitable for evaluation
+with the expanded role proposed for Sum statistics.
+</LI>
+</UL>
+
+If the effort panned out as hoped,
+the new gapped BLAST method
+would in some cases be more sensitive and selective
+than even the standard Smith-Waterman algorithm,
+due to the newer method&rsquo;s ability to find multiple gapped alignments
+between a pair of sequences
+and to evaluate their significance jointly with Sum statistics.
+<BR>
+While Altschul set to work empirically testing Sum statistics
+on gapped alignment scores,
+Gish focused on the alignment problem.
+Early results from their work appeared in
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/8743700" TARGET="_blank">
+Altschul and Gish (1996)</A>
+and provided much of the foundation for WU&nbsp;BLAST&nbsp;2.0
+and later NCBI&nbsp;<TT>blastall</TT>.
+</LI>
+
+<LI>
+The first complete implementation of gapped BLAST
+(<TT>BLASTP</TT>, <TT>BLASTN</TT>, <TT>BLASTX</TT>, <TT>TBLASTN</TT> and <TT>TBLASTX</TT>)
+with statistical significance estimates (both Poisson and Sum statistics)
+was publicly released as <B>WU&nbsp;BLAST version 2.0d1</B>
+(W. Gish, unpublished),
+in time for presentation
+at the Cold Spring Harbor conference on Genome Mapping and Sequencing
+in May 1996.
+</LI>
+<LI>
+The NCBI published its BLAST version 2 or &ldquo;Gapped BLAST&rdquo;,
+including a description of a new <I>2-hit</I> ungapped BLAST algorithm
+and the <TT>PSI-BLAST</TT> algorithm,
+in
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/9254694" TARGET="_blank">
+Altschul <I>et al.</I> (1997)</A>,
+in September 1997.
+All search modes, except <TT>BLASTN</TT>, used the new 2-hit
+algorithm by default.
+Within days of their publication,
+a faster, more sensitive 2-hit algorithm
+was deployed in WU-BLAST 2.0.
+</LI>
+<LI>
+The NCBI published a description of <TT>PHI-BLAST</TT> in
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/9705509" TARGET="_blank">
+Zhang <I>et al.</I> 1998</A>.
+</LI>
+<LI>
+In late 2008,
+rights to WU-BLAST were acquired from
+Washington University in St. Louis
+by the author, Warren&nbsp;R. Gish.
+The right to license the software to the community were acquired by
+<A HREF="http://www.advbiocomp.com" TARGET="_blank">
+Advanced Biocomputing, LLC</A> in 2009.
+</LI>
+</UL>
+
+<HR>
+
+<A NAME="References"></A>
+<H3>References</H3>
+
+<P>
+<A NAME="Altschul_and_Gish_1996">
+Altschul, SF, and W Gish (1996).
+</A>
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/8743700" TARGET="_blank">
+Local alignment statistics.
+</A>
+ed. R.&nbsp;Doolittle.
+<I>Methods Enzymol.</I>&nbsp;<B>266</B>:460&ndash;80.
+</P>
+
+<P>
+<A NAME="Altschul_and_Lipman_1990">
+Altschul, SF, and DJ Lipman (1990).
+</A>
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/2196570" TARGET="_blank">
+Protein database searches for multiple alignments.
+</A>
+<I>Proc.&nbsp;Natl.&nbsp;Acad.&nbsp;Sci.&nbsp;USA</I>&nbsp;<B>87</B>:5509&ndash;13.
+</P>
+
+<P>
+<A NAME="Altschul_et_al_1990">
+Altschul, SF, Gish, W, Miller, W, Myers, EW, and DJ Lipman (1990).
+</A>
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/2231712" TARGET="_blank">
+Basic local alignment search tool.
+</A>
+<I>J.&nbsp;Mol.&nbsp;Biol.</I>&nbsp;<B>215</B>:403&ndash;10.
+</P>
+
+<P>
+<A NAME="Altschul_et_al_1997">
+Altschul, SF, Madden, TL, Sch&auml;ffer, AA, Zhang, J, Zhang, Z, Miller, W, and DJ Lipman (1997).
+</A>
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/9254694" TARGET="_blank">
+Gapped BLAST and PSI-BLAST: a new generation of protein database search programs.
+</A>
+<I>Nucl.&nbsp;Acids&nbsp;Res.</I>&nbsp;<B>25</B>(17):3389&ndash;402.
+</P>
+
+<P>
+<A NAME="Claverie_and_States_1993">
+Claverie, JM, and DJ States (1993).</A>
+Information enhancement methods for large scale sequence analysis.
+<I>Computers in Chemistry</I>&nbsp;<B>17</B>:191&ndash;201.
+</P>
+
+<P>
+Collins, JF, and AF Coulson (1990).
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/2314288" TARGET="_blank">
+Significance of protein sequence similarities.
+</A>
+<I>Methods Enzymol.</I>&nbsp;<B>183</B>:474&ndash;7.
+</P>
+
+<P>
+<A NAME="Dembo_Karlin_1991">
+Dembo, A, and S Karlin (1991).</A>
+Strong limit theorems of empirical functionals for large exceedances
+of partial sums of i.i.d. variables.
+<I>Ann. Probab.</I>&nbsp;<B>19</B>:1737&ndash;55.
+</P>
+
+<P>
+<A NAME="Dembo_Karlin_1992">
+Dembo, A, and S Karlin (1992).</A>
+Limit distributions of maximal segmental score among Markov dependent
+partial sums.
+<I>Adv. Appl. Probab.</I>&nbsp;<B>24</B>:113&ndash;40.
+</P>
+
+<P>
+<A NAME="Gish_and_States_1993">
+Gish, W, and DJ States (1993).
+</A>
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/8485583" TARGET="_blank">
+Identification of protein coding regions by database similarity search.
+</A>
+<I>Nat. Genet.</I>&nbsp;<B>3</B>:266&ndash;72.
+</P>
+
+<P>
+<A NAME="Hancock_and_Armstrong_1994">
+Hancock, JM, and JS Armstrong (1994).</A>
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/7514951" TARGET="_blank">
+SIMPLE34: an improved and enhanced implementation
+for VAX and Sun computers of the SIMPLE algorithm
+for analysis of clustered repetitive motifs in nucleotide sequences.</A>
+<I>Comput. Appl. Biosci.</I>&nbsp;<B>10</B>:67&ndash;70.
+</P>
+
+<P>
+<A NAME="Karlin_and_Altschul_1990">
+Karlin, S, and SF Altschul (1990).
+</A>
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/2315319" TARGET="_blank">
+Methods for assessing the statistical significance of molecular sequence
+features by using general scoring schemes.</A>
+<I>Proc. Natl. Acad. Sci.&nbsp;USA</I>&nbsp;<B>87</B>:2264&ndash;8.
+</P>
+
+<P>
+<A NAME="Karlin_and_Altschul_1993">
+Karlin, S, and SF Altschul (1993).</A>
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/8390686" TARGET="_blank">
+Applications and statistics for multiple high-scoring segments
+in molecular sequences.
+</A>
+<I>Proc. Natl. Acad. Sci.&nbsp;USA</I>&nbsp;<B>90</B>:5873&ndash;7.
+</P>
+
+<P>
+<A NAME="Karlin_Dembo_Kawabata_1990">
+Karlin, S, Dembo, A, and T Kawabata (1990).
+</A>
+Statistical composition of high scoring segments from molecular sequences.
+<I>Ann. Stat.</I>&nbsp;<B>18</B>:571&ndash;81.
+</P>
+
+<P>
+<A NAME="Mott_1992">
+RF Mott (1992).
+</A>
+Maximum-likelihood estimation of the statistical distribution of Smith-Waterman
+local sequence similarity scores.
+<I>Bull. Math. Biol.</I>&nbsp;<B>54</B>:59&ndash;75.
+</P>
+
+<P>
+<A NAME="Smith_Waterman_1981">
+Smith, TF, and MS Waterman (1981).</A>
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/7265238" TARGET="_blank">
+Identification of common molecular subsequences.
+</A>
+<I>J.&nbsp;Mol.&nbsp;Biol.</I>&nbsp;<B>147</B>:195&ndash;7.
+</P>
+
+<P>
+<A NAME="States_Gish_1994">
+States, DJ, and W Gish (1994).</A>
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/8790452" TARGET="_blank">
+Combined use of sequence similarity and codon bias for coding region
+identification.
+</A>
+<I>J.&nbsp;Comp.&nbsp;Biol.</I>&nbsp;<B>1</B>:39&ndash;50.
+</P>
+
+<P>
+Waterman, MS, and M Vingron (1994).
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/8197109" TARGET="_blank">
+Rapid and accurate estimates of statistical significance for sequence data base searches.
+</A>
+<I>Proc. Natl. Acad. Sci.&nbsp;USA</I>&nbsp;<B>91</B>:4625&ndash;8.
+</P>
+
+<P>
+<A NAME="Wootton_and_Federhen_1993">
+Wootton, JC, and S Federhen (1993).</A>
+Statistics of local complexity in amino acid sequences
+and sequence databases.
+<I>Computers in&nbsp;Chemistry</I>&nbsp;<B>17</B>:149&ndash;63.
+</P>
+
+<P>
+<A NAME="Wootton_and_Federhen_1996">
+Wootton, JC, and S Federhen (1996).
+</A>
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/8743706" TARGET="_blank">
+Analysis of compositionally biased regions in sequence databases.</A>
+ed. R.&nbsp;Doolittle.
+<I>Methods Enzymol.</I>&nbsp;<B>266</B>:554&ndash;71.
+</P>
+
+<P>
+<A NAME="Zhang_et_al_1998">
+Zhang, Z, Sch&auml;ffer, AA, Miller, W, Madden, TL, Lipman, DJ, Koonin, EV,
+and SF Altschul (1998).
+</A>
+<A HREF="http://www.ncbi.nlm.nih.gov/pubmed/9705509" TARGET="_blank">
+Protein sequence similarity searches using patterns as seeds.
+</A>
+<I>Nucl. Acids Res.</I>&nbsp;<B>26</B>:3986&ndash;90.
+</P>
+
+<HR>
+<P>
+<I>Last updated: 2009-11-21</I>
+</P>
+
+<HR>
+
+<P>
+Return to the
+<A HREF="http://blast.advbiocomp.com"><EM>AB</EM>-BLAST<EM>&nbsp;Archives</EM></A> home page
+</P>
+
+</BODY>
+</HTML>
