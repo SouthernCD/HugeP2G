@@ -16,8 +16,8 @@ def main():
                         help="Path of target genome fasta file", type=str)
     parser.add_argument("-s", "--skip_range_file",
                         help="Path of skip_range_file, tsv file chr start end", type=str)
-    parser.add_argument("-d", "--work_dir", help="Path of work dir (default as ./WPG_working)",
-                        default="./WPG_working", type=str)
+    parser.add_argument("-d", "--work_dir", help="Path of work dir (default as ./hugep2g_out)",
+                        default="./hugep2g_out", type=str)
     parser.add_argument(
         "-t", "--num_threads", help="threads number (default as 56)", default=56, type=int)
     parser.add_argument("-c", "--gene_coverage",

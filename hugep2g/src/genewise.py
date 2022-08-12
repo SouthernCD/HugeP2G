@@ -10,9 +10,6 @@ import re
 
 
 def genewise_run(query_file, subject_file, genewise_out, strand, pseudo=False, q_start=None, q_end=None):
-    """
-    /lustre/home/xuyuxing/Program/wise/wise2.4.1/src/bin/genewise -pretty -tfor -genes -gff -pseudo -pep -nosplice_gtag -init global -s 142 -t 263 q.fa T267555N0C000_4492499_4493404.fa
-    """
     if pseudo:
         if strand == "+":
             cmd_string = genewise_path + " -pretty -tfor -genes -gff -pseudo -pep -nosplice_gtag -init global -s %d -t %d %s %s > %s" % (

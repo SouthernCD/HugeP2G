@@ -31,7 +31,7 @@ setuptools.setup(
         "bcbio-gff>=0.6.6",
         "biopython>=1.76",
         "interlap>=0.2.6",
-        "pandas>=1.0.1",
+        # "pandas>=1.0.1",
         "pyfaidx>=0.5.5.2",
     ],
 

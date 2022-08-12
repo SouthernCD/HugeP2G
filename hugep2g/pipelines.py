@@ -11,9 +11,10 @@ from toolbiox.lib.common.genome.seq_base import read_fasta_by_faidx, reverse_com
 from toolbiox.lib.common.math.bin_and_window import split_sequence_to_bins
 from toolbiox.lib.common.os import have_file, mkdir, rmdir, copy_file, cmd_run, multiprocess_running
 from toolbiox.lib.common.util import logging_init
+from toolbiox.lib.common.fileIO import tsv_file_dict_parse
 from toolbiox.lib.xuyuxing.math.set_operating import overlap_with_interlap_set
 import os
-import pandas as pd
+# import pandas as pd
 import re
 import toolbiox.lib.common.sqlite_command as sc
 
@@ -346,13 +347,7 @@ def seq_stats(meta_sqlite_db, check_key=None, return_key='q_id'):
     return list(set(big_output_list))
 
 
-def read_gws_file(gws_file, query_length, strand, gws_base, h_name, q_name, s_name, output_gws_db, output_pep_file, output_cds_file):
-    """
-    gws_dir = '/lustre/home/xuyuxing/Work/Gel/Gene_Loss/plant/all_map/test/Cau/running_dir/genblasta_genewise/13333/1_100/T13333N0C0000G00034/0'
-    output_gws_db = '/lustre/home/xuyuxing/Work/Gel/Gene_Loss/plant/all_map/test/Cau/running_dir/genblasta_genewise/13333/genewise.db'
-    output_pep_file = '/lustre/home/xuyuxing/Work/Gel/Gene_Loss/plant/all_map/test/Cau/running_dir/genblasta_genewise/13333/genewise.pep.fasta'
-    output_cds_file = '/lustre/home/xuyuxing/Work/Gel/Gene_Loss/plant/all_map/test/Cau/running_dir/genblasta_genewise/13333/genewise.cds.fasta'
-    """
+def read_gws_file(gws_file, query_length, strand, gws_base, h_name, q_name, s_name):
 
     if not os.path.exists(gws_file) or os.path.getsize(gws_file) == 0:
         return False, None, None, None
@@ -590,14 +585,20 @@ def build_hugep2g(args):
     logger.info(args_info_string)
 
     # read query info table
-    query_db = pd.read_excel(args.query_protein_table)
-    query_file_dict = {}
-    for index in query_db.index:
-        query_id = str(query_db.loc[index]['sp_id'])
-        query_pt_file = str(query_db.loc[index]['pt_file'])
 
-        if not pd.isna(query_id) and not pd.isna(query_pt_file):
-            query_file_dict[query_id] = query_pt_file
+    info_dict = tsv_file_dict_parse(args.query_protein_table)
+    query_file_dict = {}
+    for i in info_dict:
+        query_file_dict[info_dict[i]['sp_id']] = info_dict[i]['pt_file']
+
+    # query_db = pd.read_excel(args.query_protein_table)
+    # query_file_dict = {}
+    # for index in query_db.index:
+    #     query_id = str(query_db.loc[index]['sp_id'])
+    #     query_pt_file = str(query_db.loc[index]['pt_file'])
+
+    #     if not pd.isna(query_id) and not pd.isna(query_pt_file):
+    #         query_file_dict[query_id] = query_pt_file
 
     # diamond_dir = args.work_dir + "/diamond_dir"
     # huge_ref_pt_file = diamond_dir + "/huge_ref_pt.fasta"
@@ -621,7 +622,7 @@ def build_hugep2g(args):
                 len(query_file_dict) + printer_string)
 
     # copy target_genome_fasta to work_dir
-    logger.info("copy target genome to work dir\n")
+    logger.info("copy target genome to work dir")
     args.target_genome_fasta = copy_file(
         args.target_genome_fasta, args.work_dir, True)
 
@@ -634,7 +635,7 @@ def build_hugep2g(args):
     # build dir tree
     logger.info("Build work dir tree\n")
 
-    run_dir = args.work_dir + "/WPGmapper"
+    run_dir = args.work_dir + "/work_dir"
 
     mkdir(run_dir, True)
 
@@ -652,11 +653,9 @@ def build_hugep2g(args):
 
     # genblasta
     logger.info("Genblasta: ")
-    # build genblasta dir tree
-    logger.info("build genblasta dir tree")
 
     for query_speci_id in query_file_dict:
-        logger.info("work on %s" % query_speci_id)
+        logger.info("prepare on %s" % query_speci_id)
 
         query_fasta_dict = read_fasta_by_faidx(query_file_dict[query_speci_id])
         query_seq_list = list(query_fasta_dict.keys())
@@ -729,7 +728,7 @@ def build_hugep2g(args):
         logger.info("After genblasta: %s genes have good hits, %s failed" % (
             len(gba_passed_id_list), len(un_gba_query_gene_list)))
 
-    logger.info("running genewise files")
+    logger.info("\nGeneWise: ")
 
     target_genome_dict = read_fasta_by_faidx(args.target_genome_fasta)
     target_genome_dict = {
@@ -737,7 +736,7 @@ def build_hugep2g(args):
 
     for query_speci_id in query_file_dict:
         query_dir = "%s/%s" % (run_dir, query_speci_id)
-        logger.info("\tparse %s" % query_speci_id)
+        logger.info("\nparse %s" % query_speci_id)
         query_seq_dict = read_fasta_by_faidx(query_file_dict[query_speci_id])
         query_seq_dict = {i: str(query_seq_dict[i].seq)
                           for i in query_seq_dict}
@@ -774,7 +773,7 @@ def build_hugep2g(args):
             rmdir(os.path.join(query_dir, sub_dir))
 
         # make diamond for pep seq
-        logger.info("\tmake diamond%s" % sub_dir)
+        logger.info("running diamond")
 
         diamond_db = query_file_dict[query_speci_id] + ".dmnd"
         diamond_out = query_dir + "/genewise.pep.bls"
@@ -789,7 +788,7 @@ def build_hugep2g(args):
             sc.store_dict_to_db(ev_diamond_info, diamond_out_db)
 
         # merge_info
-        logger.info("\tmake output%s" % sub_dir)
+        logger.info("make output")
         out_db = query_dir + "/output.db"
         merged_info_dict = merge_all_info(query_dir)
         sc.store_dict_to_db(merged_info_dict, out_db)
@@ -818,6 +817,8 @@ def build_hugep2g(args):
             rmdir(query_dir + "/genewise.cds.fa.fai")
         except:
             pass
+
+        logger.info("Finished %s\n" % query_speci_id)
 
 # ##################
 # def extract_one_evidences(id_tmp, gf_name, type_tmp, contig_name, start, end, strand, daughter, qualifiers, gws_db, OG_support="", taxon_id="", table_name=""):
@@ -1089,22 +1090,4 @@ def build_hugep2g(args):
 #         best_gf_list.append(best_gf)
 #     write_gff_file(best_gf_list, gff_file)
 if __name__ == "__main__":
-
-    class abc():
-        pass
-
-    args = abc()
-
-    args.num_threads = 80
-    args.gene_coverage = 0.5
-    args.skip_coverage = 0.8
-    args.genblasta_hit_num = 20
-    args.seq_num_in_subdir = 5000
-    args.force_redo = False
-
-    args.work_dir = "/lustre/home/xuyuxing/Work/annotation_pipeline/Cau/tmp/hugep2g_test"
-    args.skip_range_file = "/lustre/home/xuyuxing/Work/annotation_pipeline/Cau/tmp/skip.range.txt"
-    args.target_genome_fasta = "/lustre/home/xuyuxing/Work/annotation_pipeline/Cau/tmp/input.genome.fasta"
-    args.query_protein_table = "/lustre/home/xuyuxing/Work/annotation_pipeline/Cau/tmp/aa_files.xlsx"
-
-    build_hugep2g(args)
+    pass
