@@ -436,7 +436,7 @@ def genewise_dir_results_check(query_dir, query_sqlite_db, sub_dir, q_len_dict, 
         if os.path.exists(output_gws_file) and os.path.getsize(output_gws_file) > 0:
             id_list.append(id_tmp)
             args_list.append((output_gws_file, q_len_dict[q_id], strand, gws_s_base,
-                              h_name, q_id, s_contig, output_gws_db, output_pep_file, output_cds_file))
+                              h_name, q_id, s_contig))
 
     if len(args_list) > 0:
         check_out = multiprocess_running(
