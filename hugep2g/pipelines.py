@@ -639,7 +639,14 @@ def build_hugep2g(args):
 
     mkdir(run_dir, True)
 
-    for i in query_file_dict:
+    unfinished_query_list = []
+    for query_speci_id in query_file_dict:
+        query_dir = "%s/%s" % (run_dir, query_speci_id)
+        out_db = query_dir + "/output.db"
+        if not have_file(out_db):
+            unfinished_query_list.append(query_speci_id)
+
+    for i in unfinished_query_list:
         mkdir(run_dir + "/" + i, True)
         query_file_dict[i] = copy_file(
             query_file_dict[i], os.path.join(run_dir, i, 'query.protein.fasta'), True)
@@ -654,7 +661,7 @@ def build_hugep2g(args):
     # genblasta
     logger.info("Genblasta: ")
 
-    for query_speci_id in query_file_dict:
+    for query_speci_id in unfinished_query_list:
         logger.info("prepare on %s" % query_speci_id)
 
         query_fasta_dict = read_fasta_by_faidx(query_file_dict[query_speci_id])
@@ -686,7 +693,7 @@ def build_hugep2g(args):
                                         args.target_genome_fasta)
     tmp_out = cmd_run(cmd_string, silence=True)
 
-    for query_speci_id in query_file_dict:
+    for query_speci_id in unfinished_query_list:
         logger.info("\tparse %s" % query_speci_id)
 
         query_dir = "%s/%s" % (run_dir, query_speci_id)
@@ -734,7 +741,7 @@ def build_hugep2g(args):
     target_genome_dict = {
         i: str(target_genome_dict[i].seq) for i in target_genome_dict}
 
-    for query_speci_id in query_file_dict:
+    for query_speci_id in unfinished_query_list:
         query_dir = "%s/%s" % (run_dir, query_speci_id)
         logger.info("\nparse %s" % query_speci_id)
         query_seq_dict = read_fasta_by_faidx(query_file_dict[query_speci_id])
