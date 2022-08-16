@@ -4,6 +4,12 @@ def get_versions():
 
 versions = [
     {
+        "number": "0.1.4",
+        "features": [
+            "1. Remove the time limit of genewise",
+        ],
+    },
+    {
         "number": "0.1.3",
         "features": [
             "1. debug",

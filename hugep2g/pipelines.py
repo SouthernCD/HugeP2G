@@ -762,8 +762,10 @@ def build_hugep2g(args):
                 query_sqlite_db, query_dir, sub_dir, query_seq_dict, target_genome_dict)
 
             # running genewise
+            # multiprocess_running(
+            #     genewise_run, genewise_args_list, args.num_threads, log_file=args.log_file, timeout=1800)
             multiprocess_running(
-                genewise_run, genewise_args_list, args.num_threads, log_file=args.log_file, timeout=1800)
+                genewise_run, genewise_args_list, args.num_threads, log_file=args.log_file)
 
             # reparse genewise output
             logger.info("\tread results in sub_dir: %s" % sub_dir)
