@@ -4,6 +4,12 @@ def get_versions():
 
 versions = [
     {
+        "number": "0.1.6",
+        "features": [
+            "1. change genblasta timeout to 5min",
+        ],
+    },
+    {
         "number": "0.1.5",
         "features": [
             "1. debug",
