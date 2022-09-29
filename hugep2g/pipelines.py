@@ -723,7 +723,7 @@ def build_hugep2g(args):
                               gba_file, args.gene_coverage, args.genblasta_hit_num))
 
         genblasta_out = multiprocess_running(
-            genblasta_run, args_list, args.num_threads, log_file=args.log_file, timeout=300)
+            genblasta_run, args_list, args.num_threads, log_file=args.log_file, timeout=1800)
 
         genblasta_dir_results_check(query_dir, args.target_genome_fasta,
                                     args.skip_range_file, args.num_threads, None, args.skip_coverage, args.genblasta_hit_num)
