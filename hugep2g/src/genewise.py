@@ -10,6 +10,12 @@ import re
 
 
 def genewise_run(query_file, subject_file, genewise_out, strand, pseudo=False, q_start=None, q_end=None):
+    try:
+        cmd_string = "rm -rf core.*"
+        cmd_run(cmd_string, retry_max=1, silence=True)
+    except:
+        pass
+
     if pseudo:
         if strand == "+":
             cmd_string = genewise_path + " -pretty -tfor -genes -gff -pseudo -pep -nosplice_gtag -init global -s %d -t %d %s %s > %s" % (
