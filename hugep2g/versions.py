@@ -4,7 +4,7 @@ def get_versions():
 
 versions = [
     {
-        "number": "0.1.6",
+        "number": "0.1.7",
         "features": [
             "1. debug",
         ],
