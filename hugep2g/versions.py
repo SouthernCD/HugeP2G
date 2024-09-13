@@ -4,6 +4,12 @@ def get_versions():
 
 versions = [
     {
+        "number": "1.0.2",
+        "features": [
+            "1. remove dependency of toolbiox",
+        ],
+    },
+    {
         "number": "1.0.1",
         "features": [
             "1. debug",

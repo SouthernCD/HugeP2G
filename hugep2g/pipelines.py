@@ -5,18 +5,41 @@ from hugep2g.src.genblasta import genblasta_run, read_genblasta_results
 from hugep2g.src.genewise import genewise_run, genewise_output_parser, gff_rec_obj_rename, block_dict_2_gff_rec
 from hugep2g.config import wu_blast_path
 from interlap import InterLap
-from toolbiox.api.common.genome.blast import outfmt6_read_big
-from toolbiox.lib.common.genome.genome_feature2 import fancy_name_parse, add_gfs_into_db, read_gff_file, write_gff_file, get_gf_from_db
-from toolbiox.lib.common.genome.seq_base import read_fasta_by_faidx, reverse_complement, read_fasta
-from toolbiox.lib.common.math.bin_and_window import split_sequence_to_bins
-from toolbiox.lib.common.os import have_file, mkdir, rmdir, copy_file, cmd_run, multiprocess_running
-from toolbiox.lib.common.util import logging_init
-from toolbiox.lib.common.fileIO import tsv_file_dict_parse
-from toolbiox.lib.xuyuxing.math.set_operating import overlap_with_interlap_set
+from yxalign import outfmt6_read_big
+from yxseq import fancy_name_parse, add_gfs_into_db, read_gff_file, write_gff_file, get_gf_from_db, read_fasta_by_faidx, reverse_complement, read_fasta
+from yxmath.split import split_sequence_to_bins
+from yxmath.interval import interval_minus_set, sum_interval_length
+from yxutil import have_file, mkdir, rmdir, copy_file, cmd_run, multiprocess_running, logging_init, tsv_file_dict_parse
 import os
 # import pandas as pd
 import re
-import toolbiox.lib.common.sqlite_command as sc
+import yxsql as sc
+
+
+def overlap_with_interlap_set(target_intervals, interlap_set, int_flag=False):
+    """
+    target_intervals = (50,100)
+    interlap_set = InterLap([(1,70),(90,120)])
+
+    overlap is (50,70) and (90,100), when int_flag is True
+    no_overlap is (71, 89) = 19
+
+    no_overlap ratio = 19/51 = 0.37
+    """
+
+    no_overlap = interval_minus_set(
+        target_intervals, list(interlap_set.find(target_intervals)))
+    overlap = interval_minus_set(target_intervals, no_overlap)
+    overlap_length = sum_interval_length(overlap, close_range=int_flag)
+
+    if int_flag:
+        overlap_ratio = overlap_length / \
+            (max(target_intervals) - min(target_intervals) + 1)
+    else:
+        overlap_ratio = overlap_length / \
+            (max(target_intervals) - min(target_intervals))
+
+    return overlap_ratio, overlap_length, overlap
 
 # from toolbiox.api.xuyuxing.genome.repeatmasker import repeatmasker_parser
 # from toolbiox.lib.common.math.interval import merge_intervals

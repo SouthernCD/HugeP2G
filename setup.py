@@ -27,7 +27,8 @@ setuptools.setup(
     packages=setuptools.find_packages(),
 
     install_requires=[
-        "toolbiox>=0.0.12",
+        # "toolbiox>=0.0.12",
+        ""
         "bcbio-gff>=0.6.6",
         "biopython>=1.76",
         "interlap>=0.2.6",

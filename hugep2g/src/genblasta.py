@@ -4,9 +4,8 @@ from Bio.SeqRecord import SeqRecord
 from hugep2g.config import tmp_work_dir, genblasta_path, genblasta_wu_script
 from hugep2g.src.genewise import genewise_run, genewise_output_parser, gff_rec_obj_rename, block_dict_2_gff_rec
 from pyfaidx import Fasta
-from toolbiox.lib.common.genome.genome_feature2 import HomoPredictResults, Gene, ChrLoci, SimpleRangePair, BlastHspRecord
-from toolbiox.lib.common.genome.seq_base import reverse_complement, read_fasta, read_fasta_big, read_fasta_by_faidx
-from toolbiox.lib.common.os import mkdir, rmdir, cmd_run
+from yxseq import reverse_complement, read_fasta, read_fasta_big, read_fasta_by_faidx, HomoPredictResults, Gene, ChrLoci, SimpleRangePair, BlastHspRecord
+from yxutil import mkdir, rmdir, cmd_run
 import os
 import re
 import shutil

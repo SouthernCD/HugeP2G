@@ -5,7 +5,7 @@ from Bio.SeqFeature import SeqFeature, FeatureLocation
 from Bio.SeqRecord import SeqRecord
 from collections import OrderedDict
 from hugep2g.config import genewise_path
-from toolbiox.lib.common.os import cmd_run
+from yxutil import cmd_run
 import re
 
 
