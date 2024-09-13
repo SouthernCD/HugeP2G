@@ -28,7 +28,10 @@ setuptools.setup(
 
     install_requires=[
         # "toolbiox>=0.0.12",
-        ""
+        "yxalign",
+        "yxseq",
+        "yxmath",
+        "yxutil",
         "bcbio-gff>=0.6.6",
         "biopython>=1.76",
         "interlap>=0.2.6",
