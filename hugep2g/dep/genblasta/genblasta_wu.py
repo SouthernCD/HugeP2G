@@ -1,5 +1,5 @@
 import os
-from toolbiox.lib.common.os import cmd_run
+from yxutil import cmd_run
 from hugep2g.config import project_dir
 import argparse
 
