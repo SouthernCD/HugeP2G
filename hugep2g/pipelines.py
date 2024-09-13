@@ -271,13 +271,13 @@ def genblasta_dir_results_check(query_dir, target_fasta_file, skip_range_file, n
         unparsed_query_gene_list = list(
             set(dir_name_hash[sub_dir]) - set(parsed_query_gene_list))
 
-        check_args_list = []
+        check_args_dict = {}
         for q_id in unparsed_query_gene_list:
             gba_file = query_dir + "/" + sub_dir + "/" + q_id + ".fa.gba"
-            check_args_list.append((gba_file,))
+            check_args_dict[q_id] = (gba_file,)
 
-        check_out = multiprocess_running(genblasta_check, check_args_list, num_threads,
-                                         log_file=log_file, args_id_list=unparsed_query_gene_list)
+        check_out = multiprocess_running(genblasta_check, check_args_dict, num_threads,
+                                         log_file=log_file)
 
         check_ok_list = [i for i in check_out if check_out[i]['output'][0]]
 
@@ -450,20 +450,18 @@ def get_q_len_from_db(query_sqlite_db):
 
 def genewise_dir_results_check(query_dir, query_sqlite_db, sub_dir, q_len_dict, output_gws_db, output_pep_file, output_cds_file, num_threads, log_file):
 
-    args_list = []
-    id_list = []
+    args_dict = {}
 
     for (id_tmp, q_id, q_start, q_end, s_contig, start, end, strand, rank, h_name, start_e, end_e, gws_s_base, cover, skip_cover, gws_check) in sc.sqlite_select(query_sqlite_db, 'work'+sub_dir, None, 'gws_check', (0,)):
         output_gws_file = query_dir + "/" + sub_dir + \
             "/" + q_id + "/" + str(rank) + "/output.gws"
         if os.path.exists(output_gws_file) and os.path.getsize(output_gws_file) > 0:
-            id_list.append(id_tmp)
-            args_list.append((output_gws_file, q_len_dict[q_id], strand, gws_s_base,
-                              h_name, q_id, s_contig))
+            args_dict[id_tmp] = (output_gws_file, q_len_dict[q_id], strand, gws_s_base,
+                                h_name, q_id, s_contig)
 
-    if len(args_list) > 0:
+    if len(args_dict) > 0:
         check_out = multiprocess_running(
-            read_gws_file, args_list, num_threads, log_file=log_file, args_id_list=id_list)
+            read_gws_file, args_dict, num_threads, log_file=log_file)
 
         gf_big_list = []
         for id_tmp in check_out:
@@ -491,7 +489,7 @@ def genewise_dir_results_check(query_dir, query_sqlite_db, sub_dir, q_len_dict, 
 
 def prepare_genewise_running(query_sqlite_db, query_dir, sub_dir, query_seq_dict, target_genome_dict):
 
-    genewise_args_list = []
+    genewise_args_dict = {}
 
     for (id_tmp, q_id, q_start, q_end, s_contig, start, end, strand, rank, h_name, start_e, end_e, gws_s_base, cover, skip_cover, gws_check) in sc.sqlite_select(query_sqlite_db, 'work'+sub_dir, None, 'gws_check', (0,)):
         query_gws_dir = query_dir + "/" + sub_dir + "/" + q_id + "/"
@@ -513,10 +511,10 @@ def prepare_genewise_running(query_sqlite_db, query_dir, sub_dir, query_seq_dict
             with open(query_rank_gws_dir + "/query.fa", 'w') as f:
                 f.write(">query\n%s\n" % query_seq_dict[q_id])
 
-        genewise_args_list.append((query_rank_gws_dir + "/query.fa", query_rank_gws_dir +
-                                   "/subject.fa", query_rank_gws_dir + "/output.gws", '+', True, q_start, q_end))
+        genewise_args_dict[id_tmp] = (query_rank_gws_dir + "/query.fa", query_rank_gws_dir +
+                                        "/subject.fa", query_rank_gws_dir + "/output.gws", '+', True, q_start, q_end)
 
-    return genewise_args_list
+    return genewise_args_dict
 
 
 def parse_diamond_out(diamond_file):
@@ -738,15 +736,15 @@ def build_hugep2g(args):
 
         dir_name_hash = get_dir_name_hash(meta_sqlite_db, True)
 
-        args_list = []
+        args_dict = {}
         for q_id in un_gba_query_gene_list:
             q_file = query_dir + "/" + dir_name_hash[q_id] + "/" + q_id + ".fa"
             gba_file = q_file + ".gba"
-            args_list.append((q_file, args.target_genome_fasta,
-                              gba_file, args.gene_coverage, args.genblasta_hit_num))
+            args_dict[q_id] = (q_file, args.target_genome_fasta,
+                                 gba_file, args.gene_coverage, args.genblasta_hit_num)
 
         genblasta_out = multiprocess_running(
-            genblasta_run, args_list, args.num_threads, log_file=args.log_file, timeout=1800)
+            genblasta_run, args_dict, args.num_threads, log_file=args.log_file, timeout=1800)
 
         genblasta_dir_results_check(query_dir, args.target_genome_fasta,
                                     args.skip_range_file, args.num_threads, None, args.skip_coverage, args.genblasta_hit_num)
@@ -788,14 +786,14 @@ def build_hugep2g(args):
                                        output_pep_file, output_cds_file, args.num_threads, None)
 
             # prepare genewise input file
-            genewise_args_list = prepare_genewise_running(
+            genewise_args_dict = prepare_genewise_running(
                 query_sqlite_db, query_dir, sub_dir, query_seq_dict, target_genome_dict)
 
             # running genewise
             # multiprocess_running(
             #     genewise_run, genewise_args_list, args.num_threads, log_file=args.log_file, timeout=1800)
             multiprocess_running(
-                genewise_run, genewise_args_list, args.num_threads, log_file=args.log_file)
+                genewise_run, genewise_args_dict, args.num_threads, log_file=args.log_file)
 
             # reparse genewise output
             logger.info("\tread results in sub_dir: %s" % sub_dir)
