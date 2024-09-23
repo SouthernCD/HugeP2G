@@ -18,17 +18,17 @@ def genewise_run(query_file, subject_file, genewise_out, strand, pseudo=False, q
 
     if pseudo:
         if strand == "+":
-            cmd_string = genewise_path + " -pretty -tfor -genes -gff -pseudo -pep -nosplice_gtag -init global -s %d -t %d %s %s > %s" % (
+            cmd_string = genewise_path + " -pretty -tfor -genes -gff -pseudo -pep -nosplice_gtag -init global -s %d -t %d %s %s > %s 2> /dev/null" % (
                 q_start, q_end, query_file, subject_file, genewise_out)
         else:
-            cmd_string = genewise_path + " -pretty -trev -genes -gff -pseudo -pep -nosplice_gtag -init global -s %d -t %d %s %s > %s" % (
+            cmd_string = genewise_path + " -pretty -trev -genes -gff -pseudo -pep -nosplice_gtag -init global -s %d -t %d %s %s > %s 2> /dev/null" % (
                 q_start, q_end, query_file, subject_file, genewise_out)
     else:
         if strand == "+":
-            cmd_string = genewise_path + " -pretty -tfor -genes -gff -pseudo -pep %s %s > %s" % (
+            cmd_string = genewise_path + " -pretty -tfor -genes -gff -pseudo -pep %s %s > %s 2> /dev/null" % (
                 query_file, subject_file, genewise_out)
         else:
-            cmd_string = genewise_path + " -pretty -trev -genes -gff -pseudo -pep %s %s > %s" % (
+            cmd_string = genewise_path + " -pretty -trev -genes -gff -pseudo -pep %s %s > %s 2> /dev/null" % (
                 query_file, subject_file, genewise_out)
 
     cmd_run(cmd_string, silence=True)
